@@ -1,0 +1,61 @@
+{
+  "deck": {
+    "title": "Jesus in One Minute",
+    "subtitle": "A short English presentation for a final speech",
+    "author": "Codex",
+    "theme": "cathedral"
+  },
+  "slides": [
+    {
+      "type": "cover",
+      "tag": "FINAL SPEECH",
+      "title": "Jesus is the central figure of Christianity.",
+      "subtitle": "A one-minute introduction to who he is, what he taught, and why he still matters.",
+      "note": "Short, clear, and easy to present without reading.",
+      "imagePath": "assets/jesus-portrait.svg"
+    },
+    {
+      "type": "bullets",
+      "kicker": "WHO HE IS",
+      "title": "Jesus is both a historical person and the heart of Christian faith.",
+      "bullets": [
+        "He lived in the land of Palestine about two thousand years ago.",
+        "Christians believe he is the Son of God and the Savior.",
+        "His life and teachings are recorded in the New Testament."
+      ],
+      "asideTitle": "Key idea",
+      "asideText": "In history he is Jesus of Nazareth; in faith he is Christ, the one sent to save humanity.",
+      "imagePath": "assets/sermon-scene.svg"
+    },
+    {
+      "type": "metrics",
+      "kicker": "WHAT HE TAUGHT",
+      "title": "The message of Jesus can be remembered in three simple words.",
+      "takeaway": "His teaching centers on love, forgiveness, and salvation.",
+      "metrics": [
+        {
+          "value": "Love",
+          "label": "Core value",
+          "note": "Love God and love other people."
+        },
+        {
+          "value": "Forgiveness",
+          "label": "How to treat others",
+          "note": "Show mercy instead of hatred."
+        },
+        {
+          "value": "Salvation",
+          "label": "Religious meaning",
+          "note": "Christians believe he brings hope and redemption."
+        }
+      ]
+    },
+    {
+      "type": "closing",
+      "kicker": "WHY HE MATTERS",
+      "title": "Jesus shaped not only a religion, but also world history and culture.",
+      "message": "Even today, Christianity remains one of the world's most influential religions, and Jesus remains its center.",
+      "cta": "Thank you."
+    }
+  ]
+}

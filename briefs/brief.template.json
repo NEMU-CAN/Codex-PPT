@@ -1,0 +1,59 @@
+{
+  "deck": {
+    "title": "Deck Title",
+    "subtitle": "One-line summary of the deck",
+    "author": "Your Name",
+    "theme": "ember"
+  },
+  "slides": [
+    {
+      "type": "cover",
+      "tag": "STRATEGY",
+      "title": "A claim-driven cover title",
+      "subtitle": "A short subtitle that explains the deck's purpose",
+      "note": "Optional lower-third note"
+    },
+    {
+      "type": "bullets",
+      "kicker": "WHY NOW",
+      "title": "State the conclusion, not the topic",
+      "bullets": [
+        "First supporting point",
+        "Second supporting point",
+        "Third supporting point"
+      ],
+      "asideTitle": "Context",
+      "asideText": "Optional context, source note, or framing copy."
+    },
+    {
+      "type": "metrics",
+      "kicker": "PROOF",
+      "title": "Back up the claim with a compact metric story",
+      "takeaway": "One sentence that explains what the numbers mean.",
+      "metrics": [
+        {
+          "value": "42%",
+          "label": "Metric label",
+          "note": "Short explanation"
+        },
+        {
+          "value": "18d",
+          "label": "Second metric",
+          "note": "Short explanation"
+        },
+        {
+          "value": "3x",
+          "label": "Third metric",
+          "note": "Short explanation"
+        }
+      ]
+    },
+    {
+      "type": "closing",
+      "kicker": "NEXT STEP",
+      "title": "Close with a decision or action",
+      "message": "Short final message",
+      "cta": "Optional CTA"
+    }
+  ]
+}

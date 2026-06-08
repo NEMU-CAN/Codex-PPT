@@ -1,0 +1,51 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Codex PPT: Build sample deck",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "scripts/build-deck.mjs"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Codex PPT: Build from brief",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "scripts/build-deck.mjs",
+        "--brief",
+        "${input:codexPptBrief}",
+        "--out",
+        "${input:codexPptOut}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "codexPptBrief",
+      "type": "promptString",
+      "description": "Path to the brief JSON file",
+      "default": "briefs/hello-world.json"
+    },
+    {
+      "id": "codexPptOut",
+      "type": "promptString",
+      "description": "Path to the output PPTX file",
+      "default": "dist/hello-world-codex.pptx"
+    }
+  ]
+}
