@@ -1,4 +1,5 @@
 .runtime/
 dist/previews/
+*.inspect.ndjson
 *.tmp
 Thumbs.db

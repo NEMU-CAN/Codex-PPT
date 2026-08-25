@@ -1,0 +1,171 @@
+{
+  "deck": {
+    "title": "Product Launch 2026",
+    "subtitle": "A complete deck driven by one JSON brief",
+    "author": "Your Team",
+    "theme": {
+      "base": "ocean",
+      "accent": "#0E7C86",
+      "accentSoft": "#7FC8D1",
+      "deep": "#0B3B42"
+    }
+  },
+  "slides": [
+    {
+      "type": "cover",
+      "tag": "LAUNCH",
+      "title": "Bringing the next generation of analytics to your team",
+      "subtitle": "One JSON brief drives an entire editable deck — no design tools required.",
+      "note": "Brief -> Node script -> editable .pptx",
+      "brandTitle": "Acme Analytics",
+      "brandSubtitle": "Product Launch 2026"
+    },
+    {
+      "type": "agenda",
+      "kicker": "AGENDA",
+      "title": "What we will cover today",
+      "items": [
+        {
+          "title": "Why now",
+          "detail": "Market shift and customer demand"
+        },
+        {
+          "title": "The product",
+          "detail": "Core features and roadmap"
+        },
+        {
+          "title": "Proof points",
+          "detail": "Metrics from early access"
+        },
+        {
+          "title": "Next steps",
+          "detail": "Pilot, pricing, and timeline"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "number": "01",
+      "title": "Why now",
+      "subtitle": "The market is ready for a simpler analytics layer"
+    },
+    {
+      "type": "bullets",
+      "kicker": "CONTEXT",
+      "title": "Teams are drowning in dashboards they no longer trust",
+      "bullets": [
+        "Analytics teams spend more than half their week maintaining reports instead of answering questions.",
+        "Business users keep exporting data into spreadsheets because the dashboards do not answer their real questions.",
+        "Every new metric takes weeks to ship because the data model is coupled to a single visualization tool.",
+        "The result is slow decisions, duplicated numbers, and low confidence in the numbers that do get shared."
+      ],
+      "asideTitle": "The shift",
+      "asideText": "A semantic data layer decouples metrics from charts, so any tool can ask questions against one trusted source of truth."
+    },
+    {
+      "type": "metrics",
+      "kicker": "PROOF",
+      "title": "Early access shows measurable impact in weeks, not quarters",
+      "takeaway": "Faster answers, fewer conflicting numbers, and a data model the whole company can trust.",
+      "metrics": [
+        {
+          "value": "-62%",
+          "label": "Report build time",
+          "note": "From weeks to days with a shared semantic layer"
+        },
+        {
+          "value": "3x",
+          "label": "Self-serve questions",
+          "note": "Business users answer their own questions"
+        },
+        {
+          "value": "1",
+          "label": "Source of truth",
+          "note": "One metric definition used by every tool"
+        }
+      ]
+    },
+    {
+      "type": "twoColumn",
+      "kicker": "THE PRODUCT",
+      "title": "One semantic layer, every analytics tool",
+      "leftHeading": "For data teams",
+      "leftBullets": [
+        "Define metrics once in version-controlled YAML",
+        "Reuse the same definitions in every dashboard",
+        "Ship new metrics in days, not weeks"
+      ],
+      "rightHeading": "For business users",
+      "rightBullets": [
+        "Ask questions in plain language",
+        "Trust that every number means the same thing",
+        "Stop exporting to spreadsheets for answers"
+      ]
+    },
+    {
+      "type": "comparison",
+      "kicker": "BEFORE / AFTER",
+      "title": "What changes for your team",
+      "leftHeading": "Today",
+      "leftPoints": [
+        "Dashboards hard-code one metric definition",
+        "Duplicate numbers across teams",
+        "Slow, manual report maintenance"
+      ],
+      "rightHeading": "With Acme",
+      "rightPoints": [
+        "Metrics defined once, everywhere",
+        "One trusted source of truth",
+        "Self-serve answers in minutes"
+      ]
+    },
+    {
+      "type": "quote",
+      "kicker": "CUSTOMER VOICE",
+      "title": "What early users say",
+      "quote": "For the first time, our leadership and our data team are looking at the exact same numbers and trusting them.",
+      "attribution": "— Head of Data, early-access customer"
+    },
+    {
+      "type": "table",
+      "kicker": "PLANS",
+      "title": "Pricing that scales with your team",
+      "headers": ["Plan", "Price", "Best for", "Self-serve"],
+      "rows": [
+        ["Launch", "$99 / seat / mo", "Small teams", "Basic"],
+        ["Scale", "$249 / seat / mo", "Growing orgs", "Full"],
+        ["Enterprise", "Custom", "Large orgs", "Full + SSO"]
+      ]
+    },
+    {
+      "type": "timeline",
+      "kicker": "ROADMAP",
+      "title": "From pilot to company-wide rollout",
+      "items": [
+        {
+          "title": "Pilot",
+          "detail": "2 teams, 6 weeks"
+        },
+        {
+          "title": "Expand",
+          "detail": "10 teams, quarter 2"
+        },
+        {
+          "title": "Scale",
+          "detail": "Company-wide, quarter 3"
+        },
+        {
+          "title": "Extend",
+          "detail": "New connectors, quarter 4"
+        }
+      ]
+    },
+    {
+      "type": "closing",
+      "kicker": "NEXT STEP",
+      "title": "Start a pilot and see the difference in six weeks",
+      "message": "Book a 30-minute walkthrough and bring one metric you want to trust.",
+      "cta": "Book a demo"
+    }
+  ]
+}

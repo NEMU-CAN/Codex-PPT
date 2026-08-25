@@ -11,7 +11,32 @@
       "tag": "STRATEGY",
       "title": "A claim-driven cover title",
       "subtitle": "A short subtitle that explains the deck's purpose",
-      "note": "Optional lower-third note"
+      "note": "Optional lower-third note",
+      "brandTitle": "Your Brand",
+      "brandSubtitle": "Deck subtitle"
+    },
+    {
+      "type": "agenda",
+      "kicker": "AGENDA",
+      "title": "What we will cover",
+      "items": [
+        {
+          "title": "First topic",
+          "detail": "Short description"
+        },
+        {
+          "title": "Second topic",
+          "detail": "Short description"
+        },
+        {
+          "title": "Third topic",
+          "detail": "Short description"
+        },
+        {
+          "title": "Fourth topic",
+          "detail": "Short description"
+        }
+      ]
     },
     {
       "type": "bullets",
@@ -47,6 +72,13 @@
           "note": "Short explanation"
         }
       ]
+    },
+    {
+      "type": "quote",
+      "kicker": "PERSPECTIVE",
+      "title": "What others say",
+      "quote": "A memorable quote that reinforces the deck's message.",
+      "attribution": "— Name, Title"
     },
     {
       "type": "closing",
