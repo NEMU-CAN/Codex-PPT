@@ -69,8 +69,64 @@ node codex-ppt-automation/scripts/build-deck.mjs `
 | `quote` | 引言页 | `quote`、`attribution`、可选 `title`/`kicker` |
 | `table` | 数据表格页 | `headers[]`、`rows[][]` |
 | `timeline` | 横向时间线页 | `items[]`：`{ title, detail? }` 或字符串 |
+| `barChart` | 横向比例柱状图（仿参考第10页） | `cards[]`、`rows[]`、`maxValue`、`asideTitle`、`asideText` |
+| `diagram` | 流程图（仿参考第16页） | `sources[]`、`targetTitle`、`nodes[]`、`targetText` |
 
 > 封面页右下角的品牌文字（`brandTitle` / `brandSubtitle`）从 brief 读取，不再写死。不填则默认使用 `deck.title` / `deck.subtitle`。
+
+### 字体样式与重点词标色
+
+- **正文自动加粗**（要点、对比、引言、结论等），小的备注文字（页脚、标签、指标说明）保持常规字重
+- **重点词标色**：在 brief 文本中用 `**重点词**` 包裹，该词会以强调色（默认红色 `#C5282F`）加粗显示：
+
+```json
+{
+  "type": "bullets",
+  "bullets": [
+    "担任过一年**学习委员**，组织过**读书会**等活动",
+    "成绩稳定在班级**前10%**"
+  ]
+}
+```
+
+### 柱状图 `barChart`
+
+```json
+{
+  "type": "barChart",
+  "kicker": "TIME｜时间投入",
+  "title": "我的时间这样分配",
+  "cards": [
+    { "value": "5h", "color": "#C5282F", "label": "每周班级工作" }
+  ],
+  "rows": [
+    { "label": "学习小组", "value": 30, "suffix": "%", "color": "#1F6FB2" },
+    { "label": "活动组织", "value": 25, "suffix": "%", "color": "#C5282F" }
+  ],
+  "maxValue": 30,
+  "asideTitle": "时间管理原则",
+  "asideText": "**学习优先**，班级工作安排在课余。"
+}
+```
+
+### 示意图 `diagram`
+
+```json
+{
+  "type": "diagram",
+  "kicker": "TEAM｜协作流程",
+  "title": "班级事务协作流程",
+  "sources": [
+    { "title": "班长 · 我", "text": "收集意见、统筹安排、**及时反馈**" }
+  ],
+  "targetTitle": "全体同学",
+  "nodes": [
+    { "label": "学习小组", "color": "#1F6FB2" },
+    { "label": "班级活动", "color": "#C5282F" }
+  ],
+  "targetText": "让每件事都有回应"
+}
+```
 
 ### 主题
 

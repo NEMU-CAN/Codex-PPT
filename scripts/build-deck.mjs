@@ -484,6 +484,143 @@ function addText(ctx, slide, options) {
   return shape;
 }
 
+/** Split text on `**keyword**` markers into { text, highlight } segments. */
+function parseMarkedText(text) {
+  const segments = [];
+  const regex = /\*\*(.+?)\*\*/g;
+  let last = 0;
+  let m;
+  while ((m = regex.exec(text))) {
+    if (m.index > last) segments.push({ text: text.slice(last, m.index), highlight: false });
+    segments.push({ text: m[1], highlight: true });
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) segments.push({ text: text.slice(last), highlight: false });
+  return segments.filter((s) => s.text.length > 0);
+}
+
+/**
+ * Rich-text aware text renderer.
+ * - Plain text (no `**`) delegates to addText (auto-fit + line spacing).
+ * - Text with `**keyword**` markers is laid out as per-segment textboxes so the
+ *   highlighted words render in `highlightColor`. This avoids the fragile run
+ *   text-style API of the runtime.
+ */
+function addRichText(ctx, slide, options) {
+  const {
+    text = "",
+    x,
+    y,
+    width,
+    height,
+    fontSize = 24,
+    minSize = 10,
+    lineHeight = 1.5,
+    highlightColor = "#C5282F",
+    bold = false,
+    color = "#1C2530",
+    typeface = "Microsoft YaHei",
+    align = "left",
+  } = options;
+
+  const raw = String(text);
+  if (!raw.includes("**")) {
+    return addText(ctx, slide, {
+      text: raw,
+      x,
+      y,
+      width,
+      height,
+      fontSize,
+      minSize,
+      lineHeight,
+      bold,
+      color,
+      typeface,
+      align,
+    });
+  }
+
+  const plain = raw.replace(/\*\*/g, "");
+  const pxSize = fitFontSize(plain, width, height, fontSize * FONT_SCALE, minSize * FONT_SCALE, lineHeight, bold);
+  const charW = (s) => effectiveTextLength(s) * pxSize * 0.58;
+  const lineH = pxSize * lineHeight;
+
+  const rawLines = raw.split("\n");
+  const visualLines = [];
+  for (const rawLine of rawLines) {
+    const segs = parseMarkedText(rawLine);
+    let line = [];
+    let lineW = 0;
+    for (const seg of segs) {
+      let segText = seg.text;
+      while (charW(segText) > width) {
+        let lo = 1;
+        let hi = segText.length;
+        let best = 1;
+        while (lo <= hi) {
+          const mid = Math.floor((lo + hi) / 2);
+          if (charW(segText.slice(0, mid)) <= width) {
+            best = mid;
+            lo = mid + 1;
+          } else {
+            hi = mid - 1;
+          }
+        }
+        const chunk = segText.slice(0, best);
+        if (line.length > 0 && lineW + charW(chunk) > width) {
+          visualLines.push(line);
+          line = [];
+          lineW = 0;
+        }
+        line.push({ text: chunk, highlight: seg.highlight });
+        lineW += charW(chunk);
+        segText = segText.slice(best);
+      }
+      if (segText) {
+        if (line.length > 0 && lineW + charW(segText) > width) {
+          visualLines.push(line);
+          line = [];
+          lineW = 0;
+        }
+        line.push({ text: segText, highlight: seg.highlight });
+        lineW += charW(segText);
+      }
+    }
+    if (line.length > 0) visualLines.push(line);
+  }
+
+  visualLines.forEach((line, li) => {
+    const lineY = y + li * lineH;
+    const totalW = line.reduce((acc, s) => acc + charW(s.text), 0);
+    let cx = x;
+    if (align === "center") cx = x + (width - totalW) / 2;
+    else if (align === "right") cx = x + width - totalW;
+    for (const seg of line) {
+      const w = charW(seg.text);
+      const shape = ctx.addText(slide, {
+        text: seg.text,
+        x: cx,
+        y: lineY,
+        width: w + 2,
+        height: lineH,
+        fontSize: pxSize,
+        bold: seg.highlight ? true : bold,
+        color: seg.highlight ? highlightColor : color,
+        typeface,
+        align: "left",
+        valign: "top",
+      });
+      try {
+        if (shape?.text) shape.text.lineSpacing = 1;
+      } catch {
+        // ignore
+      }
+      cx += w;
+    }
+  });
+}
+
 function addBaseBackground(ctx, slide, theme) {
   addShape(ctx, slide, 0, 0, ctx.W, ctx.H, theme.bg);
 }
@@ -800,15 +937,17 @@ async function renderBulletsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
   const bulletCard = cardPalette(theme, 0);
   addShape(ctx, slide, 72, 232, 580, 424, bulletCard.fill, theme.border, 1, "rect", "rounded-lg");
   addShape(ctx, slide, 72, 232, 10, 424, bulletCard.accent, "#00000000", 0, "rect", "rounded-sm");
-  addText(ctx, slide, {
+  addRichText(ctx, slide, {
     text: bulletLines(spec.bullets || []),
     x: 102,
     y: 268,
     width: 520,
     height: 356,
     fontSize: 24,
+    bold: true,
     color: theme.ink,
     typeface: theme.bodyFont,
+    highlightColor: theme.red || theme.highlight || "#C5282F",
   });
 
   addShape(ctx, slide, 686, 232, 522, 240, theme.deep, "#00000000", 0, "rect", "rounded-lg");
@@ -824,15 +963,17 @@ async function renderBulletsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     typeface: theme.bodyFont,
     fit: false,
   });
-  addText(ctx, slide, {
+  addRichText(ctx, slide, {
     text: String(spec.asideText || ""),
     x: 722,
     y: 310,
     width: 440,
     height: 130,
     fontSize: 26,
+    bold: true,
     color: theme.inverse,
     typeface: theme.titleFont,
+    highlightColor: theme.red || theme.highlight || "#C5282F",
   });
 
   await maybeAddImage(ctx, slide, spec.imagePath, { x: 686, y: 492, width: 522, height: 100 }, "cover");
@@ -896,7 +1037,7 @@ async function renderMetricsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
   });
 
   addShape(ctx, slide, 72, 590, 1136, 2, theme.accentSoft);
-  addText(ctx, slide, {
+  addRichText(ctx, slide, {
     text: String(spec.takeaway || ""),
     x: 72,
     y: 610,
@@ -906,6 +1047,7 @@ async function renderMetricsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     bold: true,
     color: theme.inverse,
     typeface: theme.bodyFont,
+    highlightColor: theme.highlight || "#FF9900",
   });
 
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount, true);
@@ -946,15 +1088,17 @@ async function renderClosingSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     color: theme.inverse,
     typeface: theme.titleFont,
   });
-  addText(ctx, slide, {
+  addRichText(ctx, slide, {
     text: String(spec.message || deck.subtitle || ""),
     x: 130,
     y: 376,
     width: 920,
     height: 90,
     fontSize: 26,
+    bold: true,
     color: "#D5E0EA",
     typeface: theme.bodyFont,
+    highlightColor: theme.highlight || "#FF9900",
   });
   if (spec.cta) {
     addShape(ctx, slide, 130, 492, 180, 42, theme.highlight || theme.accent, "#00000000", 0, "rect", "rounded-lg");
@@ -1130,15 +1274,17 @@ async function renderTwoColumnSlide(ctx, slide, theme, deck, spec, slideNumber, 
         typeface: theme.bodyFont,
       });
     }
-    addText(ctx, slide, {
+    addRichText(ctx, slide, {
       text: bulletLines(column.bullets),
       x: column.x + 28,
       y: column.heading ? 336 : 268,
       width: 484,
       height: column.heading ? 300 : 364,
       fontSize: 22,
+      bold: true,
       color: theme.ink,
       typeface: theme.bodyFont,
+      highlightColor: theme.red || theme.highlight || "#C5282F",
     });
   });
 
@@ -1164,15 +1310,17 @@ async function renderComparisonSlide(ctx, slide, theme, deck, spec, slideNumber,
     color: theme.accent,
     typeface: theme.bodyFont,
   });
-  addText(ctx, slide, {
+  addRichText(ctx, slide, {
     text: bulletLines(spec.leftPoints || []),
     x: 96,
     y: 336,
     width: 492,
     height: 300,
     fontSize: 22,
+    bold: true,
     color: theme.ink,
     typeface: theme.bodyFont,
+    highlightColor: theme.red || theme.highlight || "#C5282F",
   });
 
   addShape(ctx, slide, 640, 232, 2, 424, theme.accent);
@@ -1190,15 +1338,17 @@ async function renderComparisonSlide(ctx, slide, theme, deck, spec, slideNumber,
     color: theme.highlight || theme.accentSoft,
     typeface: theme.bodyFont,
   });
-  addText(ctx, slide, {
+  addRichText(ctx, slide, {
     text: bulletLines(spec.rightPoints || []),
     x: 692,
     y: 336,
     width: 492,
     height: 300,
     fontSize: 22,
+    bold: true,
     color: theme.inverse,
     typeface: theme.bodyFont,
+    highlightColor: theme.highlight || "#FF9900",
   });
 
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
@@ -1214,17 +1364,18 @@ async function renderQuoteSlide(ctx, slide, theme, deck, spec, slideNumber, slid
   addShape(ctx, slide, 72, panelTop, 16, 400, theme.highlight || theme.accent);
   addShape(ctx, slide, 1050, panelTop + 210, 200, 200, theme.accentSoft, "#00000000", 0, "ellipse");
 
-  addText(ctx, slide, {
+  addRichText(ctx, slide, {
     text: String(spec.quote || ""),
     x: 140,
     y: panelTop + 70,
     width: 1000,
     height: 240,
     fontSize: 44,
+    bold: true,
     color: theme.ink,
     typeface: theme.titleFont,
     align: "center",
-    valign: "middle",
+    highlightColor: theme.red || theme.highlight || "#C5282F",
   });
 
   if (spec.attribution) {
@@ -1371,6 +1522,258 @@ async function renderTimelineSlide(ctx, slide, theme, deck, spec, slideNumber, s
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
 }
 
+/**
+ * Horizontal proportional bar chart, modeled on the reference deck's
+ * "学分构成" chart: label + gray track + colored proportional bar + value.
+ * spec: { kicker, title, cards?: [{value,color,label}], rows: [{label,value,suffix?,color?}], maxValue?, asideTitle?, asideText? }
+ */
+async function renderBarChartSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
+  addBaseBackground(ctx, slide, theme);
+  addHeader(ctx, slide, theme, deck, spec);
+  addCornerDecor(ctx, slide, theme, "bl");
+
+  const cards = ensureArray(spec.cards || [], "barChart cards");
+  const rows = ensureArray(spec.rows || [], "barChart rows");
+  if (rows.length === 0) {
+    throw new Error("barChart slide requires at least one row.");
+  }
+  const maxValue = Number(spec.maxValue) > 0 ? Number(spec.maxValue) : Math.max(...rows.map((r) => Number(r.value) || 0));
+
+  // Stat cards row (optional)
+  let barsTop = 240;
+  if (cards.length > 0) {
+    const gutter = 24;
+    const cardWidth = Math.floor((ctx.W - 144 - gutter * (cards.length - 1)) / cards.length);
+    cards.forEach((card, index) => {
+      const x = 72 + index * (cardWidth + gutter);
+      const fill = card.color || theme.accent;
+      addShape(ctx, slide, x, 240, cardWidth, 104, theme.panel, theme.border, 1, "rect", "rounded-lg");
+      addShape(ctx, slide, x, 240, cardWidth, 10, fill, "#00000000", 0, "rect", "rounded-sm");
+      addText(ctx, slide, {
+        text: String(card.value || ""),
+        x: x + 20,
+        y: 262,
+        width: cardWidth - 40,
+        height: 44,
+        fontSize: 30,
+        bold: true,
+        color: fill,
+        typeface: theme.titleFont,
+      });
+      addText(ctx, slide, {
+        text: String(card.label || ""),
+        x: x + 20,
+        y: 312,
+        width: cardWidth - 40,
+        height: 26,
+        fontSize: 15,
+        color: theme.muted,
+        typeface: theme.bodyFont,
+      });
+    });
+    barsTop = 372;
+  }
+
+  // Bar rows
+  const labelX = 72;
+  const labelW = 200;
+  const trackX = 300;
+  const trackW = 640;
+  const valueX = 960;
+  const valueW = 180;
+  const rowH = 46;
+  const barH = 24;
+
+  rows.forEach((row, index) => {
+    const y = barsTop + index * rowH;
+    const value = Number(row.value) || 0;
+    const color = row.color || theme.accent;
+    addText(ctx, slide, {
+      text: String(row.label || ""),
+      x: labelX,
+      y,
+      width: labelW,
+      height: 30,
+      fontSize: 17,
+      bold: true,
+      color: theme.ink,
+      typeface: theme.bodyFont,
+    });
+    addShape(ctx, slide, trackX, y + 3, trackW, barH, theme.border, "#00000000", 0, "rect", "rounded-sm");
+    const barW = Math.max(barH, (value / maxValue) * trackW);
+    addShape(ctx, slide, trackX, y + 3, barW, barH, color, "#00000000", 0, "rect", "rounded-sm");
+    addText(ctx, slide, {
+      text: `${value}${row.suffix || ""}`,
+      x: valueX,
+      y,
+      width: valueW,
+      height: 30,
+      fontSize: 17,
+      bold: true,
+      color: theme.ink,
+      typeface: theme.bodyFont,
+      align: "right",
+    });
+  });
+
+  // Optional aside panel on the right of the bars
+  if (spec.asideTitle || spec.asideText) {
+    const asideY = barsTop + rows.length * rowH + 12;
+    addShape(ctx, slide, 72, asideY, 1136, 130, theme.panel, theme.border, 1, "rect", "rounded-lg");
+    addShape(ctx, slide, 72, asideY, 12, 130, theme.red || theme.highlight || theme.accent);
+    addText(ctx, slide, {
+      text: String(spec.asideTitle || ""),
+      x: 110,
+      y: asideY + 16,
+      width: 300,
+      height: 30,
+      fontSize: 18,
+      bold: true,
+      color: theme.red || theme.highlight || theme.accent,
+      typeface: theme.bodyFont,
+    });
+    addRichText(ctx, slide, {
+      text: String(spec.asideText || ""),
+      x: 110,
+      y: asideY + 54,
+      width: 1060,
+      height: 60,
+      fontSize: 17,
+      bold: true,
+      color: theme.muted,
+      typeface: theme.bodyFont,
+      highlightColor: theme.red || theme.highlight || "#C5282F",
+    });
+  }
+
+  addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
+}
+
+/**
+ * Flow diagram, modeled on the reference deck's "教学团队跨界融合" slide:
+ * left source boxes -> chevron arrows -> right target with colored category nodes.
+ * spec: { kicker, title, sources: [{title,text}], targetTitle, nodes: [{label,color}], targetText? }
+ */
+async function renderDiagramSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
+  addBaseBackground(ctx, slide, theme);
+  addHeader(ctx, slide, theme, deck, spec);
+  addCornerDecor(ctx, slide, theme, "bl");
+
+  const sources = ensureArray(spec.sources || [], "diagram sources");
+  const nodes = ensureArray(spec.nodes || [], "diagram nodes");
+  if (sources.length === 0 || nodes.length === 0) {
+    throw new Error("diagram slide requires sources and nodes.");
+  }
+
+  // Left source boxes (dark blue)
+  const boxX = 72;
+  const boxW = 460;
+  const boxH = 170;
+  const boxGap = 24;
+  sources.forEach((source, index) => {
+    const y = 250 + index * (boxH + boxGap);
+    addShape(ctx, slide, boxX, y, boxW, boxH, theme.deep, "#00000000", 0, "rect", "rounded-lg");
+    addShape(ctx, slide, boxX, y, boxW, 8, theme.highlight || theme.accent, "#00000000", 0, "rect", "rounded-sm");
+    addText(ctx, slide, {
+      text: String(source.title || ""),
+      x: boxX + 24,
+      y: y + 20,
+      width: boxW - 48,
+      height: 34,
+      fontSize: 20,
+      bold: true,
+      color: theme.inverse,
+      typeface: theme.bodyFont,
+    });
+    addRichText(ctx, slide, {
+      text: String(source.text || ""),
+      x: boxX + 24,
+      y: y + 62,
+      width: boxW - 48,
+      height: 90,
+      fontSize: 15,
+      bold: false,
+      color: "#C9D8E6",
+      typeface: theme.bodyFont,
+      highlightColor: theme.highlight || "#FF9900",
+    });
+  });
+
+  // Middle chevron arrows
+  const chevronX = 560;
+  const chevronY = 300;
+  const chevronW = 56;
+  const chevronH = 88;
+  for (let i = 0; i < 2; i += 1) {
+    try {
+      addShape(ctx, slide, chevronX + i * 52, chevronY + i * 76, chevronW, chevronH, theme.accent, "#00000000", 0, "chevron");
+    } catch {
+      addShape(ctx, slide, chevronX + i * 52, chevronY + i * 76, chevronW, chevronH, theme.accent);
+    }
+  }
+
+  // Right target container with colored nodes
+  const targetX = 668;
+  const targetW = 540;
+  const targetY = 236;
+  const targetH = 396;
+  addShape(ctx, slide, targetX, targetY, targetW, targetH, theme.panel, theme.border, 1, "rect", "rounded-lg");
+  addText(ctx, slide, {
+    text: String(spec.targetTitle || ""),
+    x: targetX,
+    y: targetY + 14,
+    width: targetW,
+    height: 36,
+    fontSize: 22,
+    bold: true,
+    color: theme.accent,
+    typeface: theme.bodyFont,
+    align: "center",
+  });
+
+  const nodeGap = 20;
+  const nodeW = Math.floor((targetW - 40 - nodeGap) / 2);
+  const nodeH = 96;
+  nodes.forEach((node, index) => {
+    const col = index % 2;
+    const row = Math.floor(index / 2);
+    const x = targetX + 20 + col * (nodeW + nodeGap);
+    const y = targetY + 64 + row * (nodeH + 16);
+    const fill = node.color || theme.accent;
+    addShape(ctx, slide, x, y, nodeW, nodeH, fill, "#00000000", 0, "rect", "rounded-lg");
+    addText(ctx, slide, {
+      text: String(node.label || ""),
+      x,
+      y,
+      width: nodeW,
+      height: nodeH,
+      fontSize: 20,
+      bold: true,
+      color: theme.inverse,
+      typeface: theme.bodyFont,
+      align: "center",
+      valign: "middle",
+    });
+  });
+
+  if (spec.targetText) {
+    addText(ctx, slide, {
+      text: String(spec.targetText),
+      x: targetX + 20,
+      y: targetY + targetH - 44,
+      width: targetW - 40,
+      height: 32,
+      fontSize: 15,
+      bold: true,
+      color: theme.muted,
+      typeface: theme.bodyFont,
+      align: "center",
+    });
+  }
+
+  addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
+}
+
 /* ------------------------------------------------------------------ */
 /* Dispatch                                                           */
 /* ------------------------------------------------------------------ */
@@ -1387,6 +1790,8 @@ const SUPPORTED_TYPES = [
   "quote",
   "table",
   "timeline",
+  "barChart",
+  "diagram",
 ];
 
 async function renderSlide(ctx, presentation, brief, spec, theme) {
@@ -1427,6 +1832,12 @@ async function renderSlide(ctx, presentation, brief, spec, theme) {
       break;
     case "timeline":
       await renderTimelineSlide(ctx, slide, theme, brief.deck, spec, slideNumber, slideCount);
+      break;
+    case "barChart":
+      await renderBarChartSlide(ctx, slide, theme, brief.deck, spec, slideNumber, slideCount);
+      break;
+    case "diagram":
+      await renderDiagramSlide(ctx, slide, theme, brief.deck, spec, slideNumber, slideCount);
       break;
     default:
       throw new Error(
