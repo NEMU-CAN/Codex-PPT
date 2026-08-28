@@ -76,8 +76,8 @@ node codex-ppt-automation/scripts/build-deck.mjs `
 
 `deck.theme` 可以是：
 
-- **预设主题名**：`corporate`（默认，深藏青+青+橙商务配色）、`ocean`、`forest`、`cathedral`、`slate`、`sunset`、`midnight`（深色）、`paper`、`spring`、`royal`
-- **中文字体**：默认使用微软雅黑（Microsoft YaHei），中文显示清晰
+- **预设主题名**：`academic`（校园宣传册风格：蓝色品牌带、橙色章节高亮、五色信息卡）、`corporate`（默认，深藏青+青+橙商务配色）、`ocean`、`forest`、`cathedral`、`slate`、`sunset`、`midnight`（深色）、`paper`、`spring`、`royal`
+- **中文字体**：默认使用微软雅黑（Microsoft YaHei），中文显示清晰；`academic` 使用参考成品相近的 44/32/24/22/16/14pt 层级
 - **自定义主题对象**（可选 `base` 指定从某预设继承，其余字段覆盖）：
 
 ```json
@@ -94,6 +94,42 @@ node codex-ppt-automation/scripts/build-deck.mjs `
 ```
 
 可覆盖的字段：`bg`（背景）、`panel`（卡片底色）、`ink`（正文色）、`muted`（次要文字）、`accent`（强调色）、`accentSoft`（浅强调色）、`border`（边框）、`inverse`（深底上的浅色文字）、`deep`（深色面板）、`deepSoft`、`highlight`（辅助强调色）、`titleFont`、`bodyFont`、`monoFont`。
+
+### 校园宣传册模板与五章节导航
+
+`academic` 主题支持固定品牌徽标和“一、二、三、四、五”章节导航。导航在每个内容页保持同一位置，当前章节由橙色滑动色块高亮；页面同时使用浅蓝、浅红、浅青、浅金信息卡。
+
+```json
+{
+  "deck": {
+    "theme": "academic",
+    "brand": {
+      "mark": "班",
+      "secondaryMark": "3",
+      "name": "高二（3）班",
+      "tagline": "班长竞选"
+    },
+    "sections": [
+      { "id": "1", "label": "关于我" },
+      { "id": "2", "label": "竞选理念" },
+      { "id": "3", "label": "我的优势" },
+      { "id": "4", "label": "工作计划" },
+      { "id": "5", "label": "我的承诺" }
+    ]
+  },
+  "slides": [
+    {
+      "type": "bullets",
+      "section": "1",
+      "kicker": "ABOUT ME｜自我介绍",
+      "title": "页面标题",
+      "bullets": ["第一点", "第二点"]
+    }
+  ]
+}
+```
+
+完整示例见 `briefs/class-monitor.json`，构建后输出为 `dist/class-monitor-academic.pptx`。
 
 ### 文本防溢出
 

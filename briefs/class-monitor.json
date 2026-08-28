@@ -1,0 +1,169 @@
+{
+  "deck": {
+    "title": "班长竞选",
+    "subtitle": "让我们一起把班级变得更好",
+    "author": "候选人：张三",
+    "theme": "academic",
+    "brand": {
+      "mark": "班",
+      "secondaryMark": "3",
+      "name": "高二（3）班",
+      "tagline": "班长竞选"
+    },
+    "sections": [
+      { "id": "1", "label": "关于我", "title": "关于我" },
+      { "id": "2", "label": "竞选理念", "title": "竞选理念" },
+      { "id": "3", "label": "我的优势", "title": "我的优势" },
+      { "id": "4", "label": "工作计划", "title": "工作计划" },
+      { "id": "5", "label": "我的承诺", "title": "我的承诺" }
+    ]
+  },
+  "slides": [
+    {
+      "type": "cover",
+      "tag": "竞选演讲",
+      "title": "让我们一起，把班级变得更好",
+      "subtitle": "班长竞选演讲 · 候选人：张三",
+      "note": "给我一次机会，还你一个更好的班级",
+      "brandTitle": "班长竞选",
+      "brandSubtitle": "候选人：张三"
+    },
+    {
+      "type": "agenda",
+      "section": "1",
+      "kicker": "CONTENTS｜竞选内容",
+      "title": "五个部分，认识一个认真负责的候选人",
+      "items": [
+        { "number": "一", "title": "关于我", "detail": "我是谁，我做过什么" },
+        { "number": "二", "title": "竞选理念", "detail": "我想把班级带向哪里" },
+        { "number": "三", "title": "我的优势", "detail": "为什么我能胜任" },
+        { "number": "四", "title": "工作计划", "detail": "当选后我打算怎么做" },
+        { "number": "五", "title": "我的承诺", "detail": "我会如何接受大家监督" }
+      ]
+    },
+    {
+      "type": "section",
+      "section": "1",
+      "number": "一",
+      "title": "关于我",
+      "subtitle": "一个普通同学，但有一颗想为大家服务的心"
+    },
+    {
+      "type": "bullets",
+      "section": "1",
+      "kicker": "ABOUT ME｜自我介绍",
+      "title": "我是张三，一个愿意为大家跑腿的候选人",
+      "bullets": [
+        "高二（3）班学生，担任过一年学习委员",
+        "组织过班级读书会、运动会方阵等活动",
+        "成绩稳定在班级前10%，能兼顾学习和工作",
+        "性格开朗，乐于倾听，和同学们关系融洽"
+      ],
+      "asideTitle": "我的理解",
+      "asideText": "班长不是官，而是主动发现问题、帮助大家解决问题的人。"
+    },
+    {
+      "type": "section",
+      "section": "2",
+      "number": "二",
+      "title": "竞选理念",
+      "subtitle": "让每位同学被看见，让每件事情有回应"
+    },
+    {
+      "type": "twoColumn",
+      "section": "2",
+      "kicker": "VISION｜竞选理念",
+      "title": "我想从学习和生活两方面改善班级体验",
+      "leftHeading": "学习共同体",
+      "leftBullets": [
+        "组织学习小组，互帮互助",
+        "建立错题共享，提高效率",
+        "及时和老师沟通学习情况"
+      ],
+      "rightHeading": "温暖班集体",
+      "rightBullets": [
+        "让每个同学都被听见",
+        "认真办好每一次班级活动",
+        "营造友爱、包容、有活力的氛围"
+      ]
+    },
+    {
+      "type": "section",
+      "section": "3",
+      "number": "三",
+      "title": "我的优势",
+      "subtitle": "有经验、有热情，也有把想法落地的方法"
+    },
+    {
+      "type": "metrics",
+      "section": "3",
+      "kicker": "STRENGTHS｜核心优势",
+      "title": "三个数字，说明我为什么能胜任",
+      "takeaway": "可靠的执行力、稳定的学习状态和真实的服务经验，是我竞选班长的底气。",
+      "metrics": [
+        { "value": "1年", "label": "班委经验", "note": "担任学习委员，熟悉班级事务" },
+        { "value": "10+", "label": "组织活动", "note": "策划并执行过十余次班级活动" },
+        { "value": "前10%", "label": "成绩排名", "note": "学习稳定，不耽误班级工作" }
+      ]
+    },
+    {
+      "type": "quote",
+      "section": "3",
+      "kicker": "VOICE｜同学评价",
+      "title": "我希望成为值得大家信任的人",
+      "quote": "遇到事情找得到人，提出意见听得到回应，参加活动感受到快乐。",
+      "attribution": "—— 我对班长工作的标准"
+    },
+    {
+      "type": "section",
+      "section": "4",
+      "number": "四",
+      "title": "工作计划",
+      "subtitle": "从第一周开始，用具体行动兑现竞选承诺"
+    },
+    {
+      "type": "timeline",
+      "section": "4",
+      "kicker": "ROADMAP｜行动计划",
+      "title": "当选后的三步走",
+      "items": [
+        { "title": "第一周", "detail": "收集意见，完善班级建议清单" },
+        { "title": "第一个月", "detail": "组织破冰活动，建立学习小组" },
+        { "title": "这一学期", "detail": "每月活动、每周反馈、持续改进" }
+      ]
+    },
+    {
+      "type": "section",
+      "section": "5",
+      "number": "五",
+      "title": "我的承诺",
+      "subtitle": "接受监督、及时反馈，让改变真正看得见"
+    },
+    {
+      "type": "comparison",
+      "section": "5",
+      "kicker": "PROMISE｜竞选承诺",
+      "title": "当选之后，改变看得见",
+      "leftHeading": "现在",
+      "leftPoints": [
+        "活动组织临时通知",
+        "同学意见缺少固定渠道",
+        "班级事务反馈不够及时"
+      ],
+      "rightHeading": "当选后",
+      "rightPoints": [
+        "每月提前公布活动计划",
+        "每周固定收集一次意见",
+        "重要事务当天给予回应"
+      ]
+    },
+    {
+      "type": "closing",
+      "section": "5",
+      "kicker": "THANK YOU｜感谢聆听",
+      "title": "投我一票，我们一起改变",
+      "message": "你的每一票，都是对班级未来的期待。",
+      "cta": "请投 3号 张三"
+    }
+  ]
+}

@@ -70,6 +70,26 @@ const BASE_THEME = {
 };
 
 const THEMES = {
+  academic: {
+    style: "academic",
+    bg: "#F3F6FA",
+    panel: "#FFFFFF",
+    ink: "#1C2530",
+    muted: "#5B677A",
+    accent: "#1F6FB2",
+    accentSoft: "#D9E8F5",
+    border: "#D9E1EC",
+    inverse: "#FFFFFF",
+    deep: "#15385B",
+    deepSoft: "#204573",
+    highlight: "#FF9900",
+    danger: "#F65C5C",
+    red: "#C5282F",
+    secondary: "#00A6A6",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
+  },
   corporate: {
     bg: "#F5F7FA",
     panel: "#FFFFFF",
@@ -283,10 +303,25 @@ function normalizeBrief(rawBrief) {
       subtitle: String(rawBrief.deck.subtitle || ""),
       author: String(rawBrief.deck.author || "Codex"),
       theme: normalizeTheme(rawBrief.deck.theme),
+      brand: rawBrief.deck.brand && typeof rawBrief.deck.brand === "object"
+        ? {
+            mark: String(rawBrief.deck.brand.mark || ""),
+            secondaryMark: String(rawBrief.deck.brand.secondaryMark || ""),
+            name: String(rawBrief.deck.brand.name || rawBrief.deck.title || ""),
+            tagline: String(rawBrief.deck.brand.tagline || ""),
+            logoPath: rawBrief.deck.brand.logoPath ? String(rawBrief.deck.brand.logoPath) : "",
+          }
+        : { mark: "", secondaryMark: "", name: String(rawBrief.deck.title || ""), tagline: "", logoPath: "" },
+      sections: ensureArray(rawBrief.deck.sections || [], "deck.sections").map((section, index) => ({
+        id: String(section.id || index + 1),
+        label: String(section.label || section.title || `第${index + 1}部分`),
+        title: String(section.title || section.label || ""),
+      })),
     },
     slides: slides.map((slide, index) => ({
       ...slide,
       type: String(slide.type || "").trim(),
+      section: slide.section != null ? String(slide.section) : "",
       index: index + 1,
     })),
   };
@@ -458,12 +493,13 @@ function addKicker(ctx, slide, theme, text, x = 72, y = 62, width = 150) {
 function addFooter(ctx, slide, theme, deck, slideNumber, slideCount, onDark = false) {
   const lineColor = onDark ? theme.accentSoft : theme.border;
   const textColor = onDark ? theme.accentSoft : theme.muted;
-  addShape(ctx, slide, 72, 676, ctx.W - 144, 1, lineColor);
+  const brandName = deck.brand?.name || deck.title;
+  addShape(ctx, slide, 52, 676, ctx.W - 104, 1, lineColor);
   addText(ctx, slide, {
-    text: `${deck.title}  |  ${deck.author}`,
-    x: 72,
+    text: `${brandName}  |  ${deck.author}`,
+    x: 52,
     y: 686,
-    width: 360,
+    width: 430,
     height: 18,
     fontSize: 10,
     color: textColor,
@@ -472,7 +508,7 @@ function addFooter(ctx, slide, theme, deck, slideNumber, slideCount, onDark = fa
   });
   addText(ctx, slide, {
     text: `${slideNumber}/${slideCount}`,
-    x: ctx.W - 130,
+    x: ctx.W - 112,
     y: 686,
     width: 60,
     height: 18,
@@ -484,22 +520,137 @@ function addFooter(ctx, slide, theme, deck, slideNumber, slideCount, onDark = fa
   });
 }
 
-/** Consistent header for content slides: thin accent band, kicker pill, big title, accent rule. */
-function addHeader(ctx, slide, theme, kicker, title) {
-  addShape(ctx, slide, 0, 0, ctx.W, 6, theme.accent);
-  addKicker(ctx, slide, theme, kicker, 72, 62, 150);
+function addBrandMark(ctx, slide, theme, deck, onDark = false) {
+  const mark = deck.brand?.mark || "班";
+  const secondaryMark = deck.brand?.secondaryMark || "";
+  const name = deck.brand?.name || deck.title;
+  const fg = onDark ? theme.inverse : theme.deep;
+  const badgeFill = onDark ? theme.inverse : theme.deep;
+  const badgeText = onDark ? theme.deep : theme.inverse;
+
+  // Reference-style dual mark area at top-left. A real logo can be supplied later via logoPath.
+  addShape(ctx, slide, 52, 24, 46, 46, badgeFill, "#00000000", 0, "ellipse");
   addText(ctx, slide, {
-    text: title,
-    x: 72,
-    y: 104,
-    width: 980,
-    height: 84,
-    fontSize: 36,
+    text: mark,
+    x: 52,
+    y: 24,
+    width: 46,
+    height: 46,
+    fontSize: 16,
     bold: true,
-    color: theme.ink,
+    color: badgeText,
+    typeface: theme.bodyFont,
+    align: "center",
+    valign: "middle",
+    fit: false,
+  });
+  if (secondaryMark) {
+    addShape(ctx, slide, 106, 28, 38, 38, theme.highlight || theme.accent, "#00000000", 0, "ellipse");
+    addText(ctx, slide, {
+      text: secondaryMark,
+      x: 106,
+      y: 28,
+      width: 38,
+      height: 38,
+      fontSize: 12,
+      bold: true,
+      color: theme.inverse,
+      typeface: theme.bodyFont,
+      align: "center",
+      valign: "middle",
+      fit: false,
+    });
+  }
+  addText(ctx, slide, {
+    text: name,
+    x: 1090,
+    y: 25,
+    width: 170,
+    height: 24,
+    fontSize: 13,
+    bold: true,
+    color: fg,
+    typeface: theme.bodyFont,
+    align: "right",
+  });
+  if (deck.brand?.tagline) {
+    addText(ctx, slide, {
+      text: deck.brand.tagline,
+      x: 1090,
+      y: 50,
+      width: 170,
+      height: 18,
+      fontSize: 9,
+      color: onDark ? theme.accentSoft : theme.muted,
+      typeface: theme.bodyFont,
+      align: "right",
+    });
+  }
+}
+
+function addSectionNav(ctx, slide, theme, deck, activeSection, onDark = false) {
+  const sections = deck.sections || [];
+  if (sections.length === 0) return;
+  const numerals = ["一", "二", "三", "四", "五", "六"];
+  const x = 170;
+  const y = 22;
+  const totalWidth = 880;
+  const height = 52;
+  const itemWidth = totalWidth / sections.length;
+
+  // Continuous blue band with an orange sliding active segment, matching the reference deck.
+  addShape(ctx, slide, x, y, totalWidth, height, onDark ? theme.deepSoft : theme.deep, "#00000000", 0);
+  sections.forEach((section, index) => {
+    const active = String(section.id) === String(activeSection || "");
+    const sx = x + index * itemWidth;
+    if (active) addShape(ctx, slide, sx, y, itemWidth, height, theme.highlight || "#FF9900");
+    if (index > 0) addShape(ctx, slide, sx, y + 7, 1, height - 14, onDark ? theme.accentSoft : "#7EA4C7");
+    addText(ctx, slide, {
+      text: `${numerals[index] || index + 1}  ${section.label}`,
+      x: sx + 8,
+      y: y + 16,
+      width: itemWidth - 16,
+      height: 22,
+      fontSize: 14,
+      bold: active,
+      color: theme.inverse,
+      typeface: theme.bodyFont,
+      align: "center",
+      fit: false,
+    });
+  });
+}
+
+/** Consistent academic header: chapter navigation + brand mark + title block. */
+function addHeader(ctx, slide, theme, deck, spec, onDark = false) {
+  const titleColor = onDark ? theme.inverse : theme.ink;
+  const kickerColor = onDark ? theme.accentSoft : theme.accent;
+  addShape(ctx, slide, 0, 0, ctx.W, 8, theme.accent);
+  addSectionNav(ctx, slide, theme, deck, spec.section, onDark);
+  addBrandMark(ctx, slide, theme, deck, onDark);
+  addText(ctx, slide, {
+    text: String(spec.kicker || ""),
+    x: 52,
+    y: 90,
+    width: 260,
+    height: 24,
+    fontSize: 14,
+    bold: true,
+    color: kickerColor,
+    typeface: theme.bodyFont,
+  });
+  addText(ctx, slide, {
+    text: spec.title,
+    x: 52,
+    y: 120,
+    width: 1080,
+    height: 78,
+    fontSize: 32,
+    bold: true,
+    color: titleColor,
     typeface: theme.titleFont,
   });
-  addShape(ctx, slide, 72, 198, 72, 5, theme.highlight || theme.accent);
+  addShape(ctx, slide, 52, 200, 840, 3, theme.danger || theme.highlight || theme.accent);
 }
 
 /** Soft decorative circles peeking from corners to add visual interest. */
@@ -519,6 +670,18 @@ function bulletLines(items, marker = "•") {
   return ensureArray(items, "bullets")
     .map((item) => `${marker} ${String(item)}`)
     .join("\n");
+}
+
+function cardPalette(theme, index = 0) {
+  if (theme.style !== "academic") {
+    return { fill: theme.panel, accent: theme.accent };
+  }
+  const fills = ["#EAF3FB", "#FCEDEE", "#E8F7F7", "#FFF7E6", "#F1F4F8"];
+  const accents = ["#1F6FB2", "#C5282F", "#00A6A6", "#D9A441", "#3A8F5C"];
+  return {
+    fill: fills[index % fills.length],
+    accent: accents[index % accents.length],
+  };
 }
 
 /* ------------------------------------------------------------------ */
@@ -613,10 +776,12 @@ async function renderCoverSlide(ctx, slide, theme, deck, spec, slideNumber, slid
 
 async function renderBulletsSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, deck, spec);
   addCornerDecor(ctx, slide, theme, "bl");
 
-  addShape(ctx, slide, 72, 232, 580, 360, theme.panel, theme.border, 1, "rect", "rounded-lg");
+  const bulletCard = cardPalette(theme, 0);
+  addShape(ctx, slide, 72, 232, 580, 360, bulletCard.fill, theme.border, 1, "rect", "rounded-lg");
+  addShape(ctx, slide, 72, 232, 10, 360, bulletCard.accent, "#00000000", 0, "rect", "rounded-sm");
   addText(ctx, slide, {
     text: bulletLines(spec.bullets || []),
     x: 102,
@@ -663,20 +828,7 @@ async function renderMetricsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
   addShape(ctx, slide, 0, 0, ctx.W, 8, theme.highlight || theme.accent);
   addShape(ctx, slide, ctx.W - 260, -120, 420, 420, theme.deepSoft, "#00000000", 0, "ellipse");
   addShape(ctx, slide, -120, ctx.H - 160, 280, 280, theme.deepSoft, "#00000000", 0, "ellipse");
-
-  addKicker(ctx, slide, theme, spec.kicker, 72, 62, 190);
-  addText(ctx, slide, {
-    text: String(spec.title || ""),
-    x: 72,
-    y: 104,
-    width: 900,
-    height: 84,
-    fontSize: 36,
-    bold: true,
-    color: theme.inverse,
-    typeface: theme.titleFont,
-  });
-  addShape(ctx, slide, 72, 198, 72, 5, theme.highlight || theme.accent);
+  addHeader(ctx, slide, theme, deck, spec, true);
 
   const cards = ensureArray(spec.metrics || [], "metrics");
   if (cards.length === 0) {
@@ -746,6 +898,8 @@ async function renderClosingSlide(ctx, slide, theme, deck, spec, slideNumber, sl
   addShape(ctx, slide, 0, 0, ctx.W, 8, theme.accent);
   addCornerDecor(ctx, slide, theme, "tr");
   addCornerDecor(ctx, slide, theme, "bl");
+  addSectionNav(ctx, slide, theme, deck, spec.section, false);
+  addBrandMark(ctx, slide, theme, deck, false);
 
   addShape(ctx, slide, 72, 150, 1136, 400, theme.deep, "#00000000", 0, "rect", "rounded-lg");
   addShape(ctx, slide, 72, 150, 16, 400, theme.highlight || theme.accent);
@@ -805,7 +959,7 @@ async function renderClosingSlide(ctx, slide, theme, deck, spec, slideNumber, sl
 
 async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, deck, spec);
   addCornerDecor(ctx, slide, theme, "bl");
 
   const items = ensureArray(spec.items || [], "agenda items").map((item, index) => {
@@ -828,10 +982,11 @@ async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, sli
     const x = colX[col];
     const y = startY + row * rowHeight;
 
-    addShape(ctx, slide, x, y, colWidth, 88, theme.panel, theme.border, 1, "rect", "rounded-lg");
-    addShape(ctx, slide, x, y, 8, 88, theme.accent, "#00000000", 0, "rect", "rounded-sm");
+    const palette = cardPalette(theme, index);
+    addShape(ctx, slide, x, y, colWidth, 88, palette.fill, theme.border, 1, "rect", "rounded-lg");
+    addShape(ctx, slide, x, y, 8, 88, palette.accent, "#00000000", 0, "rect", "rounded-sm");
 
-    addShape(ctx, slide, x + 28, y + 22, 44, 44, theme.accent, "#00000000", 0, "ellipse");
+    addShape(ctx, slide, x + 28, y + 22, 44, 44, palette.accent, "#00000000", 0, "ellipse");
     addText(ctx, slide, {
       text: item.number,
       x: x + 28,
@@ -880,6 +1035,8 @@ async function renderSectionSlide(ctx, slide, theme, deck, spec, slideNumber, sl
   addShape(ctx, slide, 0, 0, ctx.W, 8, theme.highlight || theme.accent);
   addShape(ctx, slide, ctx.W - 320, -140, 460, 460, theme.deepSoft, "#00000000", 0, "ellipse");
   addShape(ctx, slide, -150, ctx.H - 200, 340, 340, theme.deepSoft, "#00000000", 0, "ellipse");
+  addSectionNav(ctx, slide, theme, deck, spec.section, true);
+  addBrandMark(ctx, slide, theme, deck, true);
 
   const number = spec.number != null ? String(spec.number) : String(spec.index).padStart(2, "0");
   addShape(ctx, slide, ctx.W / 2 - 80, 150, 160, 160, theme.accent, "#00000000", 0, "ellipse");
@@ -929,7 +1086,7 @@ async function renderSectionSlide(ctx, slide, theme, deck, spec, slideNumber, sl
 
 async function renderTwoColumnSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, deck, spec);
   addCornerDecor(ctx, slide, theme, "bl");
 
   const columns = [
@@ -937,9 +1094,10 @@ async function renderTwoColumnSlide(ctx, slide, theme, deck, spec, slideNumber, 
     { x: 668, heading: spec.rightHeading, bullets: spec.rightBullets || [] },
   ];
 
-  columns.forEach((column) => {
-    addShape(ctx, slide, column.x, 232, 540, 400, theme.panel, theme.border, 1, "rect", "rounded-lg");
-    addShape(ctx, slide, column.x, 232, 540, 8, theme.accent, "#00000000", 0, "rect", "rounded-sm");
+  columns.forEach((column, index) => {
+    const palette = cardPalette(theme, index);
+    addShape(ctx, slide, column.x, 232, 540, 400, palette.fill, theme.border, 1, "rect", "rounded-lg");
+    addShape(ctx, slide, column.x, 232, 10, 400, palette.accent, "#00000000", 0, "rect", "rounded-sm");
     if (column.heading) {
       addText(ctx, slide, {
         text: String(column.heading),
@@ -970,11 +1128,12 @@ async function renderTwoColumnSlide(ctx, slide, theme, deck, spec, slideNumber, 
 
 async function renderComparisonSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, deck, spec);
   addCornerDecor(ctx, slide, theme, "bl");
 
-  addShape(ctx, slide, 72, 232, 540, 400, theme.panel, theme.border, 1, "rect", "rounded-lg");
-  addShape(ctx, slide, 72, 232, 540, 8, theme.accent, "#00000000", 0, "rect", "rounded-sm");
+  const leftPalette = cardPalette(theme, 1);
+  addShape(ctx, slide, 72, 232, 540, 400, leftPalette.fill, theme.border, 1, "rect", "rounded-lg");
+  addShape(ctx, slide, 72, 232, 10, 400, leftPalette.accent, "#00000000", 0, "rect", "rounded-sm");
   addText(ctx, slide, {
     text: String(spec.leftHeading || ""),
     x: 96,
@@ -1028,7 +1187,7 @@ async function renderComparisonSlide(ctx, slide, theme, deck, spec, slideNumber,
 
 async function renderQuoteSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, deck, spec);
   addCornerDecor(ctx, slide, theme, "tr");
 
   const panelTop = spec.title ? 240 : 170;
@@ -1069,7 +1228,7 @@ async function renderQuoteSlide(ctx, slide, theme, deck, spec, slideNumber, slid
 
 async function renderTableSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, deck, spec);
   addCornerDecor(ctx, slide, theme, "bl");
 
   const headers = ensureArray(spec.headers || [], "table headers");
@@ -1144,7 +1303,7 @@ async function renderTableSlide(ctx, slide, theme, deck, spec, slideNumber, slid
 
 async function renderTimelineSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, deck, spec);
   addCornerDecor(ctx, slide, theme, "bl");
 
   const items = ensureArray(spec.items || [], "timeline items").map((item) => {
