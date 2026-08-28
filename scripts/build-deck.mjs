@@ -53,126 +53,134 @@ function usage() {
 /* ------------------------------------------------------------------ */
 
 const BASE_THEME = {
-  bg: "#F6F1E8",
-  panel: "#FFF9F2",
-  ink: "#1E1B18",
-  muted: "#6B6258",
-  accent: "#C65D2E",
-  accentSoft: "#E7B08B",
-  border: "#D6C8B8",
-  inverse: "#FFF8F0",
-  deep: "#1F2738",
-  deepSoft: "#2F3951",
-  titleFont: "Times New Roman",
-  bodyFont: "Aptos",
-  monoFont: "Aptos Mono",
+  bg: "#F5F7FA",
+  panel: "#FFFFFF",
+  ink: "#1B2A3A",
+  muted: "#64748B",
+  accent: "#156082",
+  accentSoft: "#8FC1D0",
+  border: "#D9E2EC",
+  inverse: "#FFFFFF",
+  deep: "#0E2841",
+  deepSoft: "#1B3A5C",
+  highlight: "#E97132",
+  titleFont: "Microsoft YaHei UI",
+  bodyFont: "Microsoft YaHei",
+  monoFont: "Cascadia Mono",
 };
 
 const THEMES = {
-  ember: {
-    bg: "#F6F1E8",
-    panel: "#FFF9F2",
-    ink: "#1E1B18",
-    muted: "#6B6258",
-    accent: "#C65D2E",
-    accentSoft: "#E7B08B",
-    border: "#D6C8B8",
-    inverse: "#FFF8F0",
-    deep: "#1F2738",
-    deepSoft: "#2F3951",
-    titleFont: "Times New Roman",
-    bodyFont: "Aptos",
-    monoFont: "Aptos Mono",
+  corporate: {
+    bg: "#F5F7FA",
+    panel: "#FFFFFF",
+    ink: "#1B2A3A",
+    muted: "#64748B",
+    accent: "#156082",
+    accentSoft: "#8FC1D0",
+    border: "#D9E2EC",
+    inverse: "#FFFFFF",
+    deep: "#0E2841",
+    deepSoft: "#1B3A5C",
+    highlight: "#E97132",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
   },
   ocean: {
-    bg: "#EDF4F7",
-    panel: "#F9FCFD",
-    ink: "#16242C",
-    muted: "#5E7480",
+    bg: "#EDF4F8",
+    panel: "#FFFFFF",
+    ink: "#123A4A",
+    muted: "#5B7A8C",
     accent: "#1F7A8C",
-    accentSoft: "#8BC4D0",
-    border: "#C7DCE2",
-    inverse: "#F6FBFC",
+    accentSoft: "#9CD2DE",
+    border: "#C9DEE6",
+    inverse: "#FFFFFF",
     deep: "#0F3A47",
     deepSoft: "#175563",
-    titleFont: "Times New Roman",
-    bodyFont: "Aptos",
-    monoFont: "Aptos Mono",
+    highlight: "#E4572E",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
   },
   forest: {
-    bg: "#EEF3EC",
-    panel: "#FAFDF9",
-    ink: "#1B251C",
-    muted: "#617064",
+    bg: "#EEF4EE",
+    panel: "#FFFFFF",
+    ink: "#1B3320",
+    muted: "#5F7A63",
     accent: "#2F6B3B",
-    accentSoft: "#A7C6AE",
-    border: "#CDD9CE",
-    inverse: "#F7FBF7",
+    accentSoft: "#A9CDB0",
+    border: "#CDE0CF",
+    inverse: "#FFFFFF",
     deep: "#14351D",
     deepSoft: "#1E4A2A",
-    titleFont: "Times New Roman",
-    bodyFont: "Aptos",
-    monoFont: "Aptos Mono",
+    highlight: "#D9A520",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
   },
   cathedral: {
-    bg: "#F4EEE4",
-    panel: "#FBF7F0",
-    ink: "#1E2230",
-    muted: "#6D675E",
+    bg: "#F5F0E6",
+    panel: "#FDFAF3",
+    ink: "#232A3A",
+    muted: "#6E675C",
     accent: "#A77A2F",
     accentSoft: "#DCC08A",
-    border: "#D8CCBC",
-    inverse: "#FFF9F1",
+    border: "#DCD0BE",
+    inverse: "#FFFFFF",
     deep: "#1F2738",
     deepSoft: "#2F3951",
-    titleFont: "Times New Roman",
-    bodyFont: "Aptos",
-    monoFont: "Aptos Mono",
+    highlight: "#C65D2E",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
   },
   slate: {
-    bg: "#EFF2F5",
+    bg: "#EEF1F5",
     panel: "#FFFFFF",
     ink: "#1F2937",
     muted: "#6B7280",
     accent: "#3B82F6",
-    accentSoft: "#93C5FD",
+    accentSoft: "#A5C8FA",
     border: "#D1D5DB",
-    inverse: "#F9FAFB",
+    inverse: "#FFFFFF",
     deep: "#1E3A5F",
     deepSoft: "#2C4A6E",
-    titleFont: "Aptos Display",
-    bodyFont: "Aptos",
-    monoFont: "Aptos Mono",
+    highlight: "#F59E0B",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
   },
   sunset: {
-    bg: "#FDF0E9",
-    panel: "#FFF7F2",
+    bg: "#FDF1E9",
+    panel: "#FFFFFF",
     ink: "#3B2A20",
     muted: "#8A6A55",
     accent: "#E4572E",
-    accentSoft: "#F5A97F",
-    border: "#E8CFC0",
-    inverse: "#FFF9F5",
+    accentSoft: "#F5B08A",
+    border: "#EAD2C2",
+    inverse: "#FFFFFF",
     deep: "#4A1F0E",
     deepSoft: "#6B2D14",
-    titleFont: "Aptos Display",
-    bodyFont: "Aptos",
-    monoFont: "Aptos Mono",
+    highlight: "#2E86AB",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
   },
   midnight: {
-    bg: "#101828",
-    panel: "#1C2A3A",
-    ink: "#F3F4F6",
-    muted: "#9CA3AF",
-    accent: "#60A5FA",
-    accentSoft: "#93C5FD",
-    border: "#374151",
-    inverse: "#F9FAFB",
+    bg: "#0F172A",
+    panel: "#1E293B",
+    ink: "#F1F5F9",
+    muted: "#94A3B8",
+    accent: "#38BDF8",
+    accentSoft: "#7DD3FC",
+    border: "#334155",
+    inverse: "#F8FAFC",
     deep: "#0B1220",
     deepSoft: "#16233A",
-    titleFont: "Aptos Display",
-    bodyFont: "Aptos",
-    monoFont: "Aptos Mono",
+    highlight: "#F59E0B",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
   },
   paper: {
     bg: "#FAFAF7",
@@ -185,45 +193,48 @@ const THEMES = {
     inverse: "#FFFFFF",
     deep: "#1F2937",
     deepSoft: "#374151",
-    titleFont: "Aptos Display",
-    bodyFont: "Aptos",
-    monoFont: "Aptos Mono",
+    highlight: "#F59E0B",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
   },
   spring: {
     bg: "#F0F7F0",
-    panel: "#FAFDFA",
+    panel: "#FFFFFF",
     ink: "#1B2E1B",
     muted: "#5F7A5F",
     accent: "#2E9E5B",
-    accentSoft: "#A7D8B8",
+    accentSoft: "#A9D8B8",
     border: "#CDE0CD",
-    inverse: "#F7FBF7",
+    inverse: "#FFFFFF",
     deep: "#123B22",
     deepSoft: "#1E5731",
-    titleFont: "Aptos Display",
-    bodyFont: "Aptos",
-    monoFont: "Aptos Mono",
+    highlight: "#F59E0B",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
   },
   royal: {
     bg: "#F5F2FA",
-    panel: "#FBF9FE",
+    panel: "#FFFFFF",
     ink: "#241B38",
     muted: "#6E6285",
     accent: "#6D4FC4",
-    accentSoft: "#C4B1F0",
+    accentSoft: "#C9B8F0",
     border: "#DCD3EE",
-    inverse: "#FBF9FE",
+    inverse: "#FFFFFF",
     deep: "#2A1E4F",
     deepSoft: "#3D2C6E",
-    titleFont: "Aptos Display",
-    bodyFont: "Aptos",
-    monoFont: "Aptos Mono",
+    highlight: "#E97132",
+    titleFont: "Microsoft YaHei UI",
+    bodyFont: "Microsoft YaHei",
+    monoFont: "Cascadia Mono",
   },
 };
 
 /**
  * Resolve a theme from the brief.
- * - A string looks up a preset (ember, ocean, forest, cathedral, slate, sunset, midnight, paper, spring, royal).
+ * - A string looks up a preset (corporate, ocean, forest, cathedral, slate, sunset, midnight, paper, spring, royal).
  * - An object is treated as a custom theme and merged over the base (or over a preset named by `theme.base`).
  */
 function themeForName(name) {
@@ -232,7 +243,7 @@ function themeForName(name) {
       typeof name.base === "string" && THEMES[name.base] ? THEMES[name.base] : undefined;
     return { ...BASE_THEME, ...(base || {}), ...name };
   }
-  return THEMES[name] || THEMES.ember;
+  return THEMES[name] || THEMES.corporate;
 }
 
 /* ------------------------------------------------------------------ */
@@ -250,7 +261,7 @@ function normalizeTheme(rawTheme) {
   if (rawTheme && typeof rawTheme === "object" && !Array.isArray(rawTheme)) {
     return rawTheme;
   }
-  return String(rawTheme || "ember");
+  return String(rawTheme || "corporate");
 }
 
 function normalizeBrief(rawBrief) {
@@ -289,15 +300,15 @@ function normalizeBrief(rawBrief) {
 function isWideChar(ch) {
   const code = ch.codePointAt(0);
   return (
-    (code >= 0x1100 && code <= 0x115f) || // Hangul Jamo
+    (code >= 0x1100 && code <= 0x115f) ||
     code === 0x2329 ||
     code === 0x232a ||
-    (code >= 0x2e80 && code <= 0xa4cf) || // CJK radicals .. Yi
-    (code >= 0xac00 && code <= 0xd7a3) || // Hangul syllables
-    (code >= 0xf900 && code <= 0xfaff) || // CJK compat ideographs
-    (code >= 0xfe10 && code <= 0xfe19) || // vertical forms
-    (code >= 0xfe30 && code <= 0xfe6f) || // CJK compat forms
-    (code >= 0xff00 && code <= 0xff60) || // fullwidth forms
+    (code >= 0x2e80 && code <= 0xa4cf) ||
+    (code >= 0xac00 && code <= 0xd7a3) ||
+    (code >= 0xf900 && code <= 0xfaff) ||
+    (code >= 0xfe10 && code <= 0xfe19) ||
+    (code >= 0xfe30 && code <= 0xfe6f) ||
+    (code >= 0xff00 && code <= 0xff60) ||
     (code >= 0xffe0 && code <= 0xffe6)
   );
 }
@@ -310,9 +321,8 @@ function effectiveTextLength(text) {
   return length;
 }
 
-/** Estimate how many rendered lines a text will occupy inside a box. */
 function estimateLines(text, fontSize, width, bold = false) {
-  const charWidth = fontSize * (bold ? 0.62 : 0.55);
+  const charWidth = fontSize * (bold ? 0.62 : 0.58);
   const charsPerLine = Math.max(1, Math.floor(width / charWidth));
   let total = 0;
   for (const rawLine of String(text).split("\n")) {
@@ -322,11 +332,7 @@ function estimateLines(text, fontSize, width, bold = false) {
   return total;
 }
 
-/**
- * Shrink a font size until the estimated text height fits the box,
- * never going below `minSize`. This is the core overflow guard.
- */
-function fitFontSize(text, width, height, fontSize, minSize = 9, lineHeight = 1.25, bold = false) {
+function fitFontSize(text, width, height, fontSize, minSize = 10, lineHeight = 1.25, bold = false) {
   let size = fontSize;
   while (size > minSize) {
     const lines = estimateLines(text, size, width, bold);
@@ -377,31 +383,28 @@ async function maybeAddImage(ctx, slide, imagePath, frame, fit = "cover") {
   });
 }
 
-function addShape(ctx, slide, x, y, width, height, fill, lineFill = "#00000000", lineWidth = 0, geometry = "rect") {
-  ctx.addShape(slide, {
-    x,
-    y,
-    width,
-    height,
+/**
+ * Add a shape, optionally with rounded corners.
+ * `radius` accepts values like "rounded-sm", "rounded-lg" (or a number if the runtime supports it).
+ */
+function addShape(ctx, slide, x, y, width, height, fill, lineFill = "#00000000", lineWidth = 0, geometry = "rect", radius) {
+  const options = {
+    geometry,
+    position: { left: x, top: y, width, height },
     fill,
     line: ctx.line(lineFill, lineWidth),
-    geometry,
-  });
+  };
+  if (radius) options.borderRadius = radius;
+  return slide.shapes.add(options);
 }
 
-/**
- * Wrapper around ctx.addText with automatic overflow protection:
- * - estimates wrapped line count and shrinks the font to fit `height`
- * - applies line spacing when the runtime supports it
- * Pass `fit: false` for short labels that must keep their exact size.
- */
 function addText(ctx, slide, options) {
   const {
     text = "",
     width,
     height,
     fontSize = 24,
-    minSize = 9,
+    minSize = 10,
     lineHeight = 1.25,
     fit = true,
     ...rest
@@ -420,7 +423,6 @@ function addText(ctx, slide, options) {
     ...rest,
   });
 
-  // Best-effort line spacing; ignore if the runtime does not expose it.
   if (lineHeight !== 1 && shape?.text?.style && typeof shape.text.style === "object") {
     try {
       shape.text.style.lineSpacing = lineHeight;
@@ -435,20 +437,16 @@ function addBaseBackground(ctx, slide, theme) {
   addShape(ctx, slide, 0, 0, ctx.W, ctx.H, theme.bg);
 }
 
-function addTopBand(ctx, slide, theme) {
-  addShape(ctx, slide, 0, 0, ctx.W, 28, theme.deep || theme.accent);
-}
-
-function addKicker(ctx, slide, theme, text, x = 72, y = 68, width = 220) {
+function addKicker(ctx, slide, theme, text, x = 72, y = 62, width = 150) {
   if (!text) return;
-  addShape(ctx, slide, x, y, width, 24, theme.accent);
+  addShape(ctx, slide, x, y, width, 28, theme.accent, "#00000000", 0, "rect", "rounded-sm");
   addText(ctx, slide, {
     text: String(text).toUpperCase(),
-    x: x + 10,
-    y: y + 4,
-    width: width - 20,
-    height: 16,
-    fontSize: 10,
+    x: x + 8,
+    y: y + 5,
+    width: width - 16,
+    height: 18,
+    fontSize: 12,
     bold: true,
     color: theme.inverse,
     typeface: theme.bodyFont,
@@ -464,10 +462,10 @@ function addFooter(ctx, slide, theme, deck, slideNumber, slideCount, onDark = fa
   addText(ctx, slide, {
     text: `${deck.title}  |  ${deck.author}`,
     x: 72,
-    y: 687,
-    width: 320,
-    height: 16,
-    fontSize: 9,
+    y: 686,
+    width: 360,
+    height: 18,
+    fontSize: 10,
     color: textColor,
     typeface: theme.bodyFont,
     fit: false,
@@ -475,10 +473,10 @@ function addFooter(ctx, slide, theme, deck, slideNumber, slideCount, onDark = fa
   addText(ctx, slide, {
     text: `${slideNumber}/${slideCount}`,
     x: ctx.W - 130,
-    y: 687,
+    y: 686,
     width: 60,
-    height: 16,
-    fontSize: 9,
+    height: 18,
+    fontSize: 10,
     color: textColor,
     typeface: theme.bodyFont,
     align: "right",
@@ -486,19 +484,35 @@ function addFooter(ctx, slide, theme, deck, slideNumber, slideCount, onDark = fa
   });
 }
 
-function addSectionTitle(ctx, slide, theme, kicker, title) {
-  addKicker(ctx, slide, theme, kicker, 72, 62, 138);
+/** Consistent header for content slides: thin accent band, kicker pill, big title, accent rule. */
+function addHeader(ctx, slide, theme, kicker, title) {
+  addShape(ctx, slide, 0, 0, ctx.W, 6, theme.accent);
+  addKicker(ctx, slide, theme, kicker, 72, 62, 150);
   addText(ctx, slide, {
     text: title,
     x: 72,
-    y: 112,
-    width: 840,
-    height: 120,
-    fontSize: 30,
+    y: 104,
+    width: 980,
+    height: 84,
+    fontSize: 36,
     bold: true,
     color: theme.ink,
     typeface: theme.titleFont,
   });
+  addShape(ctx, slide, 72, 198, 72, 5, theme.highlight || theme.accent);
+}
+
+/** Soft decorative circles peeking from corners to add visual interest. */
+function addCornerDecor(ctx, slide, theme, corner = "tr") {
+  if (corner === "tr") {
+    addShape(ctx, slide, ctx.W - 230, -130, 360, 360, theme.accentSoft, "#00000000", 0, "ellipse");
+  } else if (corner === "bl") {
+    addShape(ctx, slide, -110, ctx.H - 170, 260, 260, theme.accentSoft, "#00000000", 0, "ellipse");
+  } else if (corner === "tl") {
+    addShape(ctx, slide, -130, -130, 300, 300, theme.accentSoft, "#00000000", 0, "ellipse");
+  } else if (corner === "br") {
+    addShape(ctx, slide, ctx.W - 170, ctx.H - 170, 280, 280, theme.accentSoft, "#00000000", 0, "ellipse");
+  }
 }
 
 function bulletLines(items, marker = "•") {
@@ -513,22 +527,28 @@ function bulletLines(items, marker = "•") {
 
 async function renderCoverSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addTopBand(ctx, slide, theme);
-  addShape(ctx, slide, 0, 0, ctx.W, ctx.H, theme.bg);
-  addShape(ctx, slide, 814, 0, 466, ctx.H, theme.deep || "#1F2738");
-  addShape(ctx, slide, 760, 0, 88, ctx.H, theme.accentSoft);
+  addShape(ctx, slide, 0, 0, ctx.W, 8, theme.accent);
+  addCornerDecor(ctx, slide, theme, "tr");
+  addCornerDecor(ctx, slide, theme, "bl");
 
-  await maybeAddImage(ctx, slide, spec.imagePath, { x: 858, y: 110, width: 360, height: 500 }, "cover");
-  addShape(ctx, slide, 858, 110, 360, 500, "#00000000", theme.accentSoft, 2);
+  // Right deep panel with brand
+  addShape(ctx, slide, 760, 0, 520, ctx.H, theme.deep);
+  addShape(ctx, slide, 760, 0, 520, 8, theme.highlight || theme.accent);
+  addShape(ctx, slide, 940, 420, 340, 340, theme.deepSoft, "#00000000", 0, "ellipse");
+  addShape(ctx, slide, 700, 520, 200, 200, theme.accent, "#00000000", 0, "ellipse");
 
-  addKicker(ctx, slide, theme, spec.tag, 72, 86, 152);
+  await maybeAddImage(ctx, slide, spec.imagePath, { x: 800, y: 110, width: 440, height: 380 }, "cover");
+  addShape(ctx, slide, 800, 110, 440, 380, "#00000000", theme.accentSoft, 2, "rect", "rounded-lg");
+
+  // Left content
+  addKicker(ctx, slide, theme, spec.tag, 72, 96, 160);
   addText(ctx, slide, {
     text: String(spec.title || deck.title),
     x: 72,
-    y: 172,
-    width: 630,
-    height: 170,
-    fontSize: 35,
+    y: 168,
+    width: 620,
+    height: 190,
+    fontSize: 46,
     bold: true,
     color: theme.ink,
     typeface: theme.titleFont,
@@ -536,38 +556,38 @@ async function renderCoverSlide(ctx, slide, theme, deck, spec, slideNumber, slid
   addText(ctx, slide, {
     text: String(spec.subtitle || deck.subtitle || ""),
     x: 72,
-    y: 374,
+    y: 386,
     width: 560,
-    height: 90,
-    fontSize: 19,
+    height: 100,
+    fontSize: 22,
     color: theme.muted,
     typeface: theme.bodyFont,
   });
 
-  addShape(ctx, slide, 72, 548, 210, 2, theme.accent);
+  addShape(ctx, slide, 72, 540, 90, 6, theme.highlight || theme.accent);
   addText(ctx, slide, {
     text: String(spec.note || ""),
     x: 72,
-    y: 566,
+    y: 572,
     width: 480,
-    height: 40,
-    fontSize: 13,
+    height: 44,
+    fontSize: 15,
     color: theme.accent,
     typeface: theme.bodyFont,
     bold: true,
   });
 
-  // Right-panel branding: read from the brief, never hardcoded.
+  // Right-panel branding (from brief, never hardcoded)
   const brandTitle = spec.brandTitle ?? deck.title;
   const brandSubtitle = spec.brandSubtitle ?? deck.subtitle;
   if (brandTitle) {
     addText(ctx, slide, {
       text: String(brandTitle),
-      x: 892,
-      y: 628,
-      width: 260,
-      height: 28,
-      fontSize: 20,
+      x: 790,
+      y: 600,
+      width: 460,
+      height: 44,
+      fontSize: 26,
       bold: true,
       color: theme.inverse,
       typeface: theme.titleFont,
@@ -577,12 +597,12 @@ async function renderCoverSlide(ctx, slide, theme, deck, spec, slideNumber, slid
   if (brandSubtitle) {
     addText(ctx, slide, {
       text: String(brandSubtitle),
-      x: 892,
-      y: 654,
-      width: 260,
-      height: 24,
-      fontSize: 12,
-      color: "#DCCFBF",
+      x: 790,
+      y: 650,
+      width: 460,
+      height: 34,
+      fontSize: 15,
+      color: "#BFD3E0",
       typeface: theme.bodyFont,
       fit: false,
     });
@@ -593,66 +613,70 @@ async function renderCoverSlide(ctx, slide, theme, deck, spec, slideNumber, slid
 
 async function renderBulletsSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addTopBand(ctx, slide, theme);
-  addSectionTitle(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addCornerDecor(ctx, slide, theme, "bl");
 
-  addShape(ctx, slide, 72, 224, 580, 348, theme.panel, theme.border, 1);
+  addShape(ctx, slide, 72, 232, 580, 360, theme.panel, theme.border, 1, "rect", "rounded-lg");
   addText(ctx, slide, {
     text: bulletLines(spec.bullets || []),
     x: 102,
-    y: 266,
-    width: 510,
-    height: 240,
-    fontSize: 20,
+    y: 268,
+    width: 520,
+    height: 300,
+    fontSize: 22,
     color: theme.ink,
     typeface: theme.bodyFont,
   });
 
-  addShape(ctx, slide, 686, 224, 522, 228, theme.deep || "#1F2738");
+  addShape(ctx, slide, 686, 232, 522, 240, theme.deep, "#00000000", 0, "rect", "rounded-lg");
   addText(ctx, slide, {
     text: String(spec.asideTitle || "Context").toUpperCase(),
     x: 722,
-    y: 258,
-    width: 120,
-    height: 16,
-    fontSize: 10,
+    y: 268,
+    width: 140,
+    height: 20,
+    fontSize: 12,
     bold: true,
-    color: theme.accentSoft,
+    color: theme.highlight || theme.accentSoft,
     typeface: theme.bodyFont,
     fit: false,
   });
   addText(ctx, slide, {
     text: String(spec.asideText || ""),
     x: 722,
-    y: 300,
-    width: 420,
-    height: 110,
-    fontSize: 22,
+    y: 310,
+    width: 440,
+    height: 130,
+    fontSize: 24,
     color: theme.inverse,
     typeface: theme.titleFont,
   });
 
-  await maybeAddImage(ctx, slide, spec.imagePath, { x: 686, y: 470, width: 522, height: 132 }, "cover");
-  addShape(ctx, slide, 686, 470, 522, 132, "#00000000", theme.border, 1);
+  await maybeAddImage(ctx, slide, spec.imagePath, { x: 686, y: 492, width: 522, height: 100 }, "cover");
+  addShape(ctx, slide, 686, 492, 522, 100, "#00000000", theme.border, 1, "rect", "rounded-lg");
 
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
 }
 
 async function renderMetricsSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
-  addShape(ctx, slide, 0, 0, ctx.W, ctx.H, theme.deep || "#1F2738");
-  addShape(ctx, slide, 0, 0, ctx.W, 28, theme.accent);
-  addKicker(ctx, slide, theme, spec.kicker, 72, 68, 188);
+  addShape(ctx, slide, 0, 0, ctx.W, ctx.H, theme.deep);
+  addShape(ctx, slide, 0, 0, ctx.W, 8, theme.highlight || theme.accent);
+  addShape(ctx, slide, ctx.W - 260, -120, 420, 420, theme.deepSoft, "#00000000", 0, "ellipse");
+  addShape(ctx, slide, -120, ctx.H - 160, 280, 280, theme.deepSoft, "#00000000", 0, "ellipse");
+
+  addKicker(ctx, slide, theme, spec.kicker, 72, 62, 190);
   addText(ctx, slide, {
     text: String(spec.title || ""),
     x: 72,
-    y: 120,
-    width: 820,
-    height: 90,
-    fontSize: 31,
+    y: 104,
+    width: 900,
+    height: 84,
+    fontSize: 36,
     bold: true,
     color: theme.inverse,
     typeface: theme.titleFont,
   });
+  addShape(ctx, slide, 72, 198, 72, 5, theme.highlight || theme.accent);
 
   const cards = ensureArray(spec.metrics || [], "metrics");
   if (cards.length === 0) {
@@ -661,54 +685,54 @@ async function renderMetricsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
   const gutter = 28;
   const left = 72;
   const cardWidth = Math.floor((ctx.W - left * 2 - gutter * (cards.length - 1)) / cards.length);
-  const top = 260;
+  const top = 250;
 
   cards.forEach((metric, index) => {
     const x = left + index * (cardWidth + gutter);
-    addShape(ctx, slide, x, top, cardWidth, 248, theme.panel, theme.accentSoft, 2);
-    addShape(ctx, slide, x, top, cardWidth, 16, theme.accent);
+    addShape(ctx, slide, x, top, cardWidth, 280, theme.panel, "#00000000", 0, "rect", "rounded-lg");
+    addShape(ctx, slide, x, top, cardWidth, 12, theme.accent, "#00000000", 0, "rect", "rounded-sm");
     addText(ctx, slide, {
       text: String(metric.value || ""),
-      x: x + 24,
-      y: top + 42,
-      width: cardWidth - 48,
-      height: 52,
-      fontSize: 28,
+      x: x + 28,
+      y: top + 52,
+      width: cardWidth - 56,
+      height: 64,
+      fontSize: 40,
       bold: true,
       color: theme.accent,
       typeface: theme.titleFont,
     });
     addText(ctx, slide, {
       text: String(metric.label || ""),
-      x: x + 24,
-      y: top + 116,
-      width: cardWidth - 48,
-      height: 24,
-      fontSize: 15,
+      x: x + 28,
+      y: top + 132,
+      width: cardWidth - 56,
+      height: 32,
+      fontSize: 20,
       bold: true,
       color: theme.ink,
       typeface: theme.bodyFont,
     });
     addText(ctx, slide, {
       text: String(metric.note || ""),
-      x: x + 24,
-      y: top + 152,
-      width: cardWidth - 48,
-      height: 58,
-      fontSize: 13,
+      x: x + 28,
+      y: top + 176,
+      width: cardWidth - 56,
+      height: 72,
+      fontSize: 16,
       color: theme.muted,
       typeface: theme.bodyFont,
     });
   });
 
-  addShape(ctx, slide, 72, 560, 1136, 2, theme.accentSoft);
+  addShape(ctx, slide, 72, 590, 1136, 2, theme.accentSoft);
   addText(ctx, slide, {
     text: String(spec.takeaway || ""),
     x: 72,
-    y: 584,
-    width: 980,
-    height: 48,
-    fontSize: 18,
+    y: 610,
+    width: 1000,
+    height: 50,
+    fontSize: 22,
     bold: true,
     color: theme.inverse,
     typeface: theme.bodyFont,
@@ -719,51 +743,56 @@ async function renderMetricsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
 
 async function renderClosingSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addTopBand(ctx, slide, theme);
-  addShape(ctx, slide, 72, 144, 1136, 392, theme.deep || "#1F2738");
-  addShape(ctx, slide, 72, 144, 20, 392, theme.accent);
+  addShape(ctx, slide, 0, 0, ctx.W, 8, theme.accent);
+  addCornerDecor(ctx, slide, theme, "tr");
+  addCornerDecor(ctx, slide, theme, "bl");
+
+  addShape(ctx, slide, 72, 150, 1136, 400, theme.deep, "#00000000", 0, "rect", "rounded-lg");
+  addShape(ctx, slide, 72, 150, 16, 400, theme.highlight || theme.accent);
+  addShape(ctx, slide, 1000, 380, 220, 220, theme.deepSoft, "#00000000", 0, "ellipse");
+
   addText(ctx, slide, {
     text: String(spec.kicker || "").toUpperCase(),
-    x: 124,
-    y: 194,
-    width: 180,
-    height: 18,
-    fontSize: 11,
+    x: 130,
+    y: 210,
+    width: 220,
+    height: 22,
+    fontSize: 13,
     bold: true,
-    color: theme.accentSoft,
+    color: theme.highlight || theme.accentSoft,
     typeface: theme.bodyFont,
     fit: false,
   });
   addText(ctx, slide, {
     text: String(spec.title || ""),
-    x: 124,
-    y: 232,
-    width: 904,
-    height: 90,
-    fontSize: 34,
+    x: 130,
+    y: 252,
+    width: 920,
+    height: 100,
+    fontSize: 40,
     bold: true,
     color: theme.inverse,
     typeface: theme.titleFont,
   });
   addText(ctx, slide, {
     text: String(spec.message || deck.subtitle || ""),
-    x: 124,
-    y: 356,
-    width: 910,
+    x: 130,
+    y: 376,
+    width: 920,
     height: 90,
-    fontSize: 21,
-    color: "#ECE2D3",
+    fontSize: 24,
+    color: "#D5E0EA",
     typeface: theme.bodyFont,
   });
   if (spec.cta) {
-    addShape(ctx, slide, 124, 466, 148, 34, theme.accent);
+    addShape(ctx, slide, 130, 492, 180, 42, theme.highlight || theme.accent, "#00000000", 0, "rect", "rounded-lg");
     addText(ctx, slide, {
       text: String(spec.cta),
-      x: 138,
-      y: 474,
-      width: 120,
-      height: 18,
-      fontSize: 14,
+      x: 144,
+      y: 504,
+      width: 152,
+      height: 20,
+      fontSize: 16,
       bold: true,
       color: theme.inverse,
       typeface: theme.bodyFont,
@@ -774,14 +803,10 @@ async function renderClosingSlide(ctx, slide, theme, deck, spec, slideNumber, sl
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
 }
 
-/**
- * Agenda / overview: numbered topics in two columns.
- * spec: { kicker, title, items: [{ title, detail? } | string] }
- */
 async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addTopBand(ctx, slide, theme);
-  addSectionTitle(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addCornerDecor(ctx, slide, theme, "bl");
 
   const items = ensureArray(spec.items || [], "agenda items").map((item, index) => {
     if (typeof item === "string") return { title: item, detail: "" };
@@ -794,8 +819,8 @@ async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, sli
 
   const colX = [72, 668];
   const colWidth = 540;
-  const startY = 250;
-  const rowHeight = 97;
+  const startY = 236;
+  const rowHeight = 104;
 
   items.forEach((item, index) => {
     const col = index % 2;
@@ -803,13 +828,16 @@ async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, sli
     const x = colX[col];
     const y = startY + row * rowHeight;
 
-    addShape(ctx, slide, x, y + 2, 46, 46, theme.accent, "#00000000", 0, "ellipse");
+    addShape(ctx, slide, x, y, colWidth, 88, theme.panel, theme.border, 1, "rect", "rounded-lg");
+    addShape(ctx, slide, x, y, 8, 88, theme.accent, "#00000000", 0, "rect", "rounded-sm");
+
+    addShape(ctx, slide, x + 28, y + 22, 44, 44, theme.accent, "#00000000", 0, "ellipse");
     addText(ctx, slide, {
       text: item.number,
-      x,
-      y,
-      width: 46,
-      height: 46,
+      x: x + 28,
+      y: y + 22,
+      width: 44,
+      height: 44,
       fontSize: 18,
       bold: true,
       color: theme.inverse,
@@ -821,24 +849,23 @@ async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, sli
 
     addText(ctx, slide, {
       text: item.title,
-      x: x + 64,
-      y,
-      width: colWidth - 64,
+      x: x + 92,
+      y: y + 16,
+      width: colWidth - 112,
       height: 34,
-      fontSize: 19,
+      fontSize: 22,
       bold: true,
       color: theme.ink,
       typeface: theme.bodyFont,
     });
-
     if (item.detail) {
       addText(ctx, slide, {
         text: item.detail,
-        x: x + 64,
-        y: y + 38,
-        width: colWidth - 64,
-        height: 44,
-        fontSize: 13,
+        x: x + 92,
+        y: y + 54,
+        width: colWidth - 112,
+        height: 26,
+        fontSize: 15,
         color: theme.muted,
         typeface: theme.bodyFont,
       });
@@ -848,23 +875,21 @@ async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, sli
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
 }
 
-/**
- * Section divider.
- * spec: { number?, title, subtitle? }
- */
 async function renderSectionSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
-  addShape(ctx, slide, 0, 0, ctx.W, ctx.H, theme.deep || "#1F2738");
-  addShape(ctx, slide, 0, 0, ctx.W, 28, theme.accent);
+  addShape(ctx, slide, 0, 0, ctx.W, ctx.H, theme.deep);
+  addShape(ctx, slide, 0, 0, ctx.W, 8, theme.highlight || theme.accent);
+  addShape(ctx, slide, ctx.W - 320, -140, 460, 460, theme.deepSoft, "#00000000", 0, "ellipse");
+  addShape(ctx, slide, -150, ctx.H - 200, 340, 340, theme.deepSoft, "#00000000", 0, "ellipse");
 
   const number = spec.number != null ? String(spec.number) : String(spec.index).padStart(2, "0");
-  addShape(ctx, slide, ctx.W / 2 - 70, 170, 140, 140, theme.accent, "#00000000", 0, "ellipse");
+  addShape(ctx, slide, ctx.W / 2 - 80, 150, 160, 160, theme.accent, "#00000000", 0, "ellipse");
   addText(ctx, slide, {
     text: number,
-    x: ctx.W / 2 - 70,
-    y: 170,
-    width: 140,
-    height: 140,
-    fontSize: 64,
+    x: ctx.W / 2 - 80,
+    y: 150,
+    width: 160,
+    height: 160,
+    fontSize: 72,
     bold: true,
     color: theme.inverse,
     typeface: theme.titleFont,
@@ -878,21 +903,22 @@ async function renderSectionSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     x: 180,
     y: 360,
     width: 920,
-    height: 90,
-    fontSize: 40,
+    height: 100,
+    fontSize: 44,
     bold: true,
     color: theme.inverse,
     typeface: theme.titleFont,
     align: "center",
   });
+  addShape(ctx, slide, ctx.W / 2 - 40, 478, 80, 5, theme.highlight || theme.accent);
 
   addText(ctx, slide, {
     text: String(spec.subtitle || ""),
     x: 240,
-    y: 470,
+    y: 506,
     width: 800,
     height: 60,
-    fontSize: 20,
+    fontSize: 22,
     color: theme.accentSoft,
     typeface: theme.bodyFont,
     align: "center",
@@ -901,14 +927,10 @@ async function renderSectionSlide(ctx, slide, theme, deck, spec, slideNumber, sl
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount, true);
 }
 
-/**
- * Two text columns.
- * spec: { kicker, title, leftHeading?, leftBullets?, rightHeading?, rightBullets? }
- */
 async function renderTwoColumnSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addTopBand(ctx, slide, theme);
-  addSectionTitle(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addCornerDecor(ctx, slide, theme, "bl");
 
   const columns = [
     { x: 72, heading: spec.leftHeading, bullets: spec.leftBullets || [] },
@@ -916,15 +938,16 @@ async function renderTwoColumnSlide(ctx, slide, theme, deck, spec, slideNumber, 
   ];
 
   columns.forEach((column) => {
-    addShape(ctx, slide, column.x, 240, 540, 400, theme.panel, theme.border, 1);
+    addShape(ctx, slide, column.x, 232, 540, 400, theme.panel, theme.border, 1, "rect", "rounded-lg");
+    addShape(ctx, slide, column.x, 232, 540, 8, theme.accent, "#00000000", 0, "rect", "rounded-sm");
     if (column.heading) {
       addText(ctx, slide, {
         text: String(column.heading),
-        x: column.x + 24,
+        x: column.x + 28,
         y: 268,
-        width: 492,
+        width: 484,
         height: 40,
-        fontSize: 20,
+        fontSize: 24,
         bold: true,
         color: theme.accent,
         typeface: theme.bodyFont,
@@ -932,11 +955,11 @@ async function renderTwoColumnSlide(ctx, slide, theme, deck, spec, slideNumber, 
     }
     addText(ctx, slide, {
       text: bulletLines(column.bullets),
-      x: column.x + 24,
-      y: column.heading ? 320 : 268,
-      width: 492,
-      height: column.heading ? 300 : 350,
-      fontSize: 18,
+      x: column.x + 28,
+      y: column.heading ? 324 : 268,
+      width: 484,
+      height: column.heading ? 290 : 340,
+      fontSize: 20,
       color: theme.ink,
       typeface: theme.bodyFont,
     });
@@ -945,24 +968,20 @@ async function renderTwoColumnSlide(ctx, slide, theme, deck, spec, slideNumber, 
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
 }
 
-/**
- * Side-by-side comparison.
- * spec: { kicker, title, leftHeading?, leftPoints?, rightHeading?, rightPoints? }
- */
 async function renderComparisonSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addTopBand(ctx, slide, theme);
-  addSectionTitle(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addCornerDecor(ctx, slide, theme, "bl");
 
-  // Left panel (light)
-  addShape(ctx, slide, 72, 240, 540, 400, theme.panel, theme.border, 1);
+  addShape(ctx, slide, 72, 232, 540, 400, theme.panel, theme.border, 1, "rect", "rounded-lg");
+  addShape(ctx, slide, 72, 232, 540, 8, theme.accent, "#00000000", 0, "rect", "rounded-sm");
   addText(ctx, slide, {
     text: String(spec.leftHeading || ""),
     x: 96,
     y: 268,
     width: 492,
     height: 40,
-    fontSize: 20,
+    fontSize: 24,
     bold: true,
     color: theme.accent,
     typeface: theme.bodyFont,
@@ -970,37 +989,36 @@ async function renderComparisonSlide(ctx, slide, theme, deck, spec, slideNumber,
   addText(ctx, slide, {
     text: bulletLines(spec.leftPoints || []),
     x: 96,
-    y: 320,
+    y: 324,
     width: 492,
-    height: 300,
-    fontSize: 18,
+    height: 290,
+    fontSize: 20,
     color: theme.ink,
     typeface: theme.bodyFont,
   });
 
-  // Center divider
-  addShape(ctx, slide, 640, 240, 2, 400, theme.accent);
+  addShape(ctx, slide, 640, 232, 2, 400, theme.accent);
 
-  // Right panel (dark)
-  addShape(ctx, slide, 668, 240, 540, 400, theme.deep || "#1F2738");
+  addShape(ctx, slide, 668, 232, 540, 400, theme.deep, "#00000000", 0, "rect", "rounded-lg");
+  addShape(ctx, slide, 668, 232, 540, 8, theme.highlight || theme.accent, "#00000000", 0, "rect", "rounded-sm");
   addText(ctx, slide, {
     text: String(spec.rightHeading || ""),
     x: 692,
     y: 268,
     width: 492,
     height: 40,
-    fontSize: 20,
+    fontSize: 24,
     bold: true,
-    color: theme.accentSoft,
+    color: theme.highlight || theme.accentSoft,
     typeface: theme.bodyFont,
   });
   addText(ctx, slide, {
     text: bulletLines(spec.rightPoints || []),
     x: 692,
-    y: 320,
+    y: 324,
     width: 492,
-    height: 300,
-    fontSize: 18,
+    height: 290,
+    fontSize: 20,
     color: theme.inverse,
     typeface: theme.bodyFont,
   });
@@ -1008,33 +1026,15 @@ async function renderComparisonSlide(ctx, slide, theme, deck, spec, slideNumber,
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
 }
 
-/**
- * Large quote.
- * spec: { kicker, title?, quote, attribution? }
- */
 async function renderQuoteSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addTopBand(ctx, slide, theme);
-  if (spec.kicker) {
-    addKicker(ctx, slide, theme, spec.kicker, 72, 68, 188);
-  }
-  if (spec.title) {
-    addText(ctx, slide, {
-      text: String(spec.title),
-      x: 72,
-      y: 112,
-      width: 840,
-      height: 90,
-      fontSize: 26,
-      bold: true,
-      color: theme.ink,
-      typeface: theme.titleFont,
-    });
-  }
+  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addCornerDecor(ctx, slide, theme, "tr");
 
-  const panelTop = spec.title ? 230 : 168;
-  addShape(ctx, slide, 72, panelTop, 1136, 400, theme.panel, theme.border, 1);
-  addShape(ctx, slide, 72, panelTop, 12, 400, theme.accent);
+  const panelTop = spec.title ? 240 : 170;
+  addShape(ctx, slide, 72, panelTop, 1136, 400, theme.panel, theme.border, 1, "rect", "rounded-lg");
+  addShape(ctx, slide, 72, panelTop, 16, 400, theme.highlight || theme.accent);
+  addShape(ctx, slide, 1050, panelTop + 210, 200, 200, theme.accentSoft, "#00000000", 0, "ellipse");
 
   addText(ctx, slide, {
     text: String(spec.quote || ""),
@@ -1042,7 +1042,7 @@ async function renderQuoteSlide(ctx, slide, theme, deck, spec, slideNumber, slid
     y: panelTop + 70,
     width: 1000,
     height: 240,
-    fontSize: 34,
+    fontSize: 40,
     color: theme.ink,
     typeface: theme.titleFont,
     align: "center",
@@ -1056,7 +1056,7 @@ async function renderQuoteSlide(ctx, slide, theme, deck, spec, slideNumber, slid
       y: panelTop + 330,
       width: 1000,
       height: 40,
-      fontSize: 16,
+      fontSize: 18,
       bold: true,
       color: theme.accent,
       typeface: theme.bodyFont,
@@ -1067,14 +1067,10 @@ async function renderQuoteSlide(ctx, slide, theme, deck, spec, slideNumber, slid
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
 }
 
-/**
- * Data table.
- * spec: { kicker, title, headers: [], rows: [[...], ...] }
- */
 async function renderTableSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addTopBand(ctx, slide, theme);
-  addSectionTitle(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addCornerDecor(ctx, slide, theme, "bl");
 
   const headers = ensureArray(spec.headers || [], "table headers");
   const rows = ensureArray(spec.rows || [], "table rows");
@@ -1083,22 +1079,24 @@ async function renderTableSlide(ctx, slide, theme, deck, spec, slideNumber, slid
   }
 
   const tableX = 72;
-  const tableY = 240;
+  const tableY = 232;
   const tableWidth = 1136;
   const tableHeight = 400;
-  const headerH = 52;
+  const headerH = 56;
   const bodyH = (tableHeight - headerH) / rows.length;
   const colWidth = tableWidth / headers.length;
+
+  addShape(ctx, slide, tableX, tableY, tableWidth, tableHeight, theme.panel, theme.border, 1, "rect", "rounded-lg");
 
   const cellText = (rowIndex, colIndex, cell, x, y, width, height, fill, color, align) => {
     addShape(ctx, slide, x, y, width, height, fill, theme.border, 1);
     addText(ctx, slide, {
       text: String(cell ?? ""),
-      x: x + 8,
+      x: x + 10,
       y: y + 4,
-      width: width - 16,
+      width: width - 20,
       height: height - 8,
-      fontSize: 15,
+      fontSize: rowIndex === -1 ? 18 : 16,
       bold: rowIndex === -1,
       color,
       typeface: theme.bodyFont,
@@ -1144,14 +1142,10 @@ async function renderTableSlide(ctx, slide, theme, deck, spec, slideNumber, slid
   addFooter(ctx, slide, theme, deck, slideNumber, slideCount);
 }
 
-/**
- * Horizontal timeline.
- * spec: { kicker, title, items: [{ title, detail? } | string] }
- */
 async function renderTimelineSlide(ctx, slide, theme, deck, spec, slideNumber, slideCount) {
   addBaseBackground(ctx, slide, theme);
-  addTopBand(ctx, slide, theme);
-  addSectionTitle(ctx, slide, theme, spec.kicker, spec.title);
+  addHeader(ctx, slide, theme, spec.kicker, spec.title);
+  addCornerDecor(ctx, slide, theme, "bl");
 
   const items = ensureArray(spec.items || [], "timeline items").map((item) => {
     if (typeof item === "string") return { title: item, detail: "" };
@@ -1161,20 +1155,21 @@ async function renderTimelineSlide(ctx, slide, theme, deck, spec, slideNumber, s
     throw new Error("timeline slide requires at least one item.");
   }
 
-  const lineY = 380;
-  addShape(ctx, slide, 72, lineY, 1136, 3, theme.accent);
+  const lineY = 400;
+  addShape(ctx, slide, 72, lineY, 1136, 4, theme.accent);
 
   items.forEach((item, index) => {
     const nodeX = items.length === 1 ? 640 : 72 + (1136 / (items.length - 1)) * index;
-    addShape(ctx, slide, nodeX - 9, lineY - 8, 18, 18, theme.accent, theme.bg, 2, "ellipse");
+    addShape(ctx, slide, nodeX - 14, lineY - 12, 28, 28, theme.accent, theme.bg, 3, "ellipse");
+    addShape(ctx, slide, nodeX - 5, lineY - 3, 10, 10, theme.highlight || theme.accent, "#00000000", 0, "ellipse");
 
     addText(ctx, slide, {
       text: item.title,
-      x: nodeX - 140,
-      y: 300,
-      width: 280,
-      height: 64,
-      fontSize: 18,
+      x: nodeX - 150,
+      y: 310,
+      width: 300,
+      height: 70,
+      fontSize: 22,
       bold: true,
       color: theme.ink,
       typeface: theme.bodyFont,
@@ -1183,11 +1178,11 @@ async function renderTimelineSlide(ctx, slide, theme, deck, spec, slideNumber, s
     if (item.detail) {
       addText(ctx, slide, {
         text: item.detail,
-        x: nodeX - 140,
-        y: 404,
-        width: 280,
+        x: nodeX - 150,
+        y: 430,
+        width: 300,
         height: 90,
-        fontSize: 13,
+        fontSize: 16,
         color: theme.muted,
         typeface: theme.bodyFont,
         align: "center",
@@ -1274,7 +1269,6 @@ async function loadJson(jsonPath) {
 }
 
 async function importHelpers(skillDir) {
-  // The runtime has moved artifact_tool_utils.mjs between releases; probe both locations.
   const candidates = [
     path.join(skillDir, "scripts", "artifact_tool_utils.mjs"),
     path.join(skillDir, "container_tools", "artifact_tool_utils.mjs"),

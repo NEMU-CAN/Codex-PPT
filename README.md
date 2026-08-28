@@ -76,7 +76,8 @@ node codex-ppt-automation/scripts/build-deck.mjs `
 
 `deck.theme` 可以是：
 
-- **预设主题名**：`ember`、`ocean`、`forest`、`cathedral`、`slate`、`sunset`、`midnight`、`paper`、`spring`、`royal`
+- **预设主题名**：`corporate`（默认，深藏青+青+橙商务配色）、`ocean`、`forest`、`cathedral`、`slate`、`sunset`、`midnight`（深色）、`paper`、`spring`、`royal`
+- **中文字体**：默认使用微软雅黑（Microsoft YaHei），中文显示清晰
 - **自定义主题对象**（可选 `base` 指定从某预设继承，其余字段覆盖）：
 
 ```json
@@ -92,11 +93,11 @@ node codex-ppt-automation/scripts/build-deck.mjs `
 }
 ```
 
-可覆盖的字段：`bg`（背景）、`panel`（卡片底色）、`ink`（正文色）、`muted`（次要文字）、`accent`（强调色）、`accentSoft`（浅强调色）、`border`（边框）、`inverse`（深底上的浅色文字）、`deep`（深色面板）、`deepSoft`、`titleFont`、`bodyFont`、`monoFont`。
+可覆盖的字段：`bg`（背景）、`panel`（卡片底色）、`ink`（正文色）、`muted`（次要文字）、`accent`（强调色）、`accentSoft`（浅强调色）、`border`（边框）、`inverse`（深底上的浅色文字）、`deep`（深色面板）、`deepSoft`、`highlight`（辅助强调色）、`titleFont`、`bodyFont`、`monoFont`。
 
 ### 文本防溢出
 
-所有文本块默认自动适配：脚本会估算文本在给定宽度下的换行行数，若超出文本框高度则逐步缩小字号（最小 9pt），保证内容不溢出。短标签（如页脚、编号）可通过 `fit: false` 保持固定字号（脚本内部使用，brief 无需关心）。
+所有文本块默认自动适配：脚本会估算文本在给定宽度下的换行行数，若超出文本框高度则逐步缩小字号（最小 10pt），保证内容不溢出。短标签（如页脚、编号）可通过 `fit: false` 保持固定字号（脚本内部使用，brief 无需关心）。
 
 ## 推荐工作流
 

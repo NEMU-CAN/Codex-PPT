@@ -3,12 +3,7 @@
     "title": "Product Launch 2026",
     "subtitle": "A complete deck driven by one JSON brief",
     "author": "Your Team",
-    "theme": {
-      "base": "ocean",
-      "accent": "#0E7C86",
-      "accentSoft": "#7FC8D1",
-      "deep": "#0B3B42"
-    }
+    "theme": "corporate"
   },
   "slides": [
     {
