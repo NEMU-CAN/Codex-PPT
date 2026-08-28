@@ -601,11 +601,16 @@ function addRichText(ctx, slide, options) {
       else if (align === "right") cx = x + width - totalW;
       for (const seg of line) {
         const w = charW(seg.text);
+        // Give each segment textbox the FULL remaining line width so the text
+        // never wraps inside its own narrow box (PowerPoint wraps if the box is
+        // tighter than the rendered text). Text is left-aligned, so position is
+        // controlled by cx; the wide box is invisible.
+        const boxW = Math.max(w + 2, width - (cx - x));
         const shape = ctx.addText(slide, {
           text: seg.text,
           x: cx,
           y: lineY,
-          width: w + 2,
+          width: boxW,
           height: lineH,
           fontSize: pxSize,
           bold: seg.highlight ? true : bold,
