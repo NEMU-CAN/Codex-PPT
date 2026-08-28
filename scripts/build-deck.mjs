@@ -979,7 +979,7 @@ async function renderBulletsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     x: 722,
     y: 310,
     width: 440,
-    height: 130,
+    height: 160,
     fontSize: 26,
     bold: true,
     color: theme.inverse,
