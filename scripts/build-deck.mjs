@@ -939,7 +939,7 @@ async function renderBulletsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 268,
     width: 520,
     height: 356,
-    fontSize: 24,
+    fontSize: 26,
     bold: true,
     color: theme.ink,
     typeface: theme.bodyFont,
