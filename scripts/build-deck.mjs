@@ -357,7 +357,7 @@ function effectiveTextLength(text) {
 }
 
 function estimateLines(text, fontSize, width, bold = false) {
-  const charWidth = fontSize * (bold ? 0.55 : 0.5);
+  const charWidth = fontSize * 0.5;
   const charsPerLine = Math.max(1, Math.floor(width / charWidth));
   let total = 0;
   for (const rawLine of String(text).split("\n")) {
@@ -544,9 +544,10 @@ function addRichText(ctx, slide, options) {
 
   const plain = raw.replace(/\*\*/g, "");
   let pxSize = fitFontSize(plain, width, height, fontSize * FONT_SCALE, minSize * FONT_SCALE, lineHeight, bold);
-  const charW = (s) => effectiveTextLength(s) * pxSize * (bold ? 0.55 : 0.5);
+  const charW = (s) => effectiveTextLength(s) * pxSize * 0.5;
   const lineH = pxSize * lineHeight;
-  const indent = bullet ? pxSize : 0;
+  // The rendered bullet marker "• " is ~2em wide, so indent continuations by 2× font size.
+  const indent = bullet ? pxSize * 2 : 0;
   const effWidth = width - indent;
 
   // Never split a keyword across lines: shrink the font until every segment
@@ -554,7 +555,7 @@ function addRichText(ctx, slide, options) {
   const rawLines = raw.split("\n");
   const allSegs = rawLines.flatMap((line) => parseMarkedText(line));
   const maxSegUnits = Math.max(1, ...allSegs.map((s) => effectiveTextLength(s.text)));
-  while (pxSize > minSize * FONT_SCALE && maxSegUnits * pxSize * (bold ? 0.55 : 0.5) > effWidth) {
+  while (pxSize > minSize * FONT_SCALE && maxSegUnits * pxSize * 0.5 > effWidth) {
     pxSize -= 1;
   }
 
@@ -579,6 +580,14 @@ function addRichText(ctx, slide, options) {
     }
     if (line.length > 0) group.push(line);
     lineGroups.push(group);
+  }
+
+  // Guard: if the laid-out lines exceed the box height, shrink the font so the
+  // whole block fits (prevents text from spilling over the next element).
+  let totalLines = lineGroups.reduce((acc, g) => acc + g.length, 0);
+  while (totalLines * lineH > height && pxSize > minSize * FONT_SCALE) {
+    pxSize -= 1;
+    totalLines = lineGroups.reduce((acc, g) => acc + g.length, 0);
   }
 
   let globalLine = 0;
@@ -763,7 +772,7 @@ function addSectionNav(ctx, slide, theme, deck, activeSection, onDark = false) {
       width: itemWidth - 16,
       height: 22,
       fontSize: 15,
-      bold: active,
+      bold: true,
       color: theme.inverse,
       typeface: theme.bodyFont,
       align: "center",
@@ -939,7 +948,7 @@ async function renderBulletsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 268,
     width: 520,
     height: 356,
-    fontSize: 26,
+    fontSize: 24,
     bold: true,
     color: theme.ink,
     typeface: theme.bodyFont,
