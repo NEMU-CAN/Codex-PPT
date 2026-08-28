@@ -367,7 +367,7 @@ function estimateLines(text, fontSize, width, bold = false) {
   return total;
 }
 
-function fitFontSize(text, width, height, fontSize, minSize = 10, lineHeight = 1.25, bold = false) {
+function fitFontSize(text, width, height, fontSize, minSize = 10, lineHeight = 1.5, bold = false) {
   let size = fontSize;
   while (size > minSize) {
     const lines = estimateLines(text, size, width, bold);
@@ -377,6 +377,14 @@ function fitFontSize(text, width, height, fontSize, minSize = 10, lineHeight = 1
   }
   return Math.max(minSize, size);
 }
+
+/**
+ * The runtime renders at 96 dpi (1280x720 px slide), while PowerPoint stores font
+ * sizes in points. A runtime fontSize of N px becomes N * 72/96 = 0.75N pt in the
+ * exported file. We scale configured sizes by 4/3 so they appear at their intended
+ * point size in PowerPoint.
+ */
+const FONT_SCALE = 4 / 3;
 
 /* ------------------------------------------------------------------ */
 /* Low-level drawing helpers                                          */
@@ -440,14 +448,14 @@ function addText(ctx, slide, options) {
     height,
     fontSize = 24,
     minSize = 10,
-    lineHeight = 1.25,
+    lineHeight = 1.5,
     fit = true,
     ...rest
   } = options;
 
-  let size = fontSize;
+  let size = fontSize * FONT_SCALE;
   if (fit && width && height && text) {
-    size = fitFontSize(text, width, height, fontSize, minSize, lineHeight, Boolean(rest.bold));
+    size = fitFontSize(text, width, height, size, minSize * FONT_SCALE, lineHeight, Boolean(rest.bold));
   }
 
   const shape = ctx.addText(slide, {
@@ -458,9 +466,11 @@ function addText(ctx, slide, options) {
     ...rest,
   });
 
-  if (lineHeight !== 1 && shape?.text?.style && typeof shape.text.style === "object") {
+  // Best-effort line spacing; the runtime exposes a direct `lineSpacing` setter
+  // that accepts a multiplier (e.g. 1.5) and converts it to a percentage.
+  if (lineHeight !== 1 && shape?.text) {
     try {
-      shape.text.style.lineSpacing = lineHeight;
+      shape.text.lineSpacing = lineHeight;
     } catch {
       // ignore
     }
@@ -501,7 +511,7 @@ function addFooter(ctx, slide, theme, deck, slideNumber, slideCount, onDark = fa
     y: 686,
     width: 430,
     height: 18,
-    fontSize: 10,
+    fontSize: 11,
     color: textColor,
     typeface: theme.bodyFont,
     fit: false,
@@ -536,7 +546,7 @@ function addBrandMark(ctx, slide, theme, deck, onDark = false) {
     y: 24,
     width: 46,
     height: 46,
-    fontSize: 16,
+    fontSize: 18,
     bold: true,
     color: badgeText,
     typeface: theme.bodyFont,
@@ -567,7 +577,7 @@ function addBrandMark(ctx, slide, theme, deck, onDark = false) {
     y: 25,
     width: 170,
     height: 24,
-    fontSize: 13,
+    fontSize: 14,
     bold: true,
     color: fg,
     typeface: theme.bodyFont,
@@ -580,7 +590,7 @@ function addBrandMark(ctx, slide, theme, deck, onDark = false) {
       y: 50,
       width: 170,
       height: 18,
-      fontSize: 9,
+      fontSize: 10,
       color: onDark ? theme.accentSoft : theme.muted,
       typeface: theme.bodyFont,
       align: "right",
@@ -611,7 +621,7 @@ function addSectionNav(ctx, slide, theme, deck, activeSection, onDark = false) {
       y: y + 16,
       width: itemWidth - 16,
       height: 22,
-      fontSize: 14,
+      fontSize: 15,
       bold: active,
       color: theme.inverse,
       typeface: theme.bodyFont,
@@ -634,7 +644,7 @@ function addHeader(ctx, slide, theme, deck, spec, onDark = false) {
     y: 90,
     width: 260,
     height: 24,
-    fontSize: 14,
+    fontSize: 16,
     bold: true,
     color: kickerColor,
     typeface: theme.bodyFont,
@@ -645,7 +655,7 @@ function addHeader(ctx, slide, theme, deck, spec, onDark = false) {
     y: 120,
     width: 1080,
     height: 78,
-    fontSize: 32,
+    fontSize: 36,
     bold: true,
     color: titleColor,
     typeface: theme.titleFont,
@@ -711,7 +721,7 @@ async function renderCoverSlide(ctx, slide, theme, deck, spec, slideNumber, slid
     y: 168,
     width: 620,
     height: 190,
-    fontSize: 46,
+    fontSize: 50,
     bold: true,
     color: theme.ink,
     typeface: theme.titleFont,
@@ -722,7 +732,7 @@ async function renderCoverSlide(ctx, slide, theme, deck, spec, slideNumber, slid
     y: 386,
     width: 560,
     height: 100,
-    fontSize: 22,
+    fontSize: 24,
     color: theme.muted,
     typeface: theme.bodyFont,
   });
@@ -734,7 +744,7 @@ async function renderCoverSlide(ctx, slide, theme, deck, spec, slideNumber, slid
     y: 572,
     width: 480,
     height: 44,
-    fontSize: 15,
+    fontSize: 16,
     color: theme.accent,
     typeface: theme.bodyFont,
     bold: true,
@@ -750,7 +760,7 @@ async function renderCoverSlide(ctx, slide, theme, deck, spec, slideNumber, slid
       y: 600,
       width: 460,
       height: 44,
-      fontSize: 26,
+      fontSize: 28,
       bold: true,
       color: theme.inverse,
       typeface: theme.titleFont,
@@ -764,7 +774,7 @@ async function renderCoverSlide(ctx, slide, theme, deck, spec, slideNumber, slid
       y: 650,
       width: 460,
       height: 34,
-      fontSize: 15,
+      fontSize: 16,
       color: "#BFD3E0",
       typeface: theme.bodyFont,
       fit: false,
@@ -780,15 +790,15 @@ async function renderBulletsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
   addCornerDecor(ctx, slide, theme, "bl");
 
   const bulletCard = cardPalette(theme, 0);
-  addShape(ctx, slide, 72, 232, 580, 360, bulletCard.fill, theme.border, 1, "rect", "rounded-lg");
-  addShape(ctx, slide, 72, 232, 10, 360, bulletCard.accent, "#00000000", 0, "rect", "rounded-sm");
+  addShape(ctx, slide, 72, 232, 580, 424, bulletCard.fill, theme.border, 1, "rect", "rounded-lg");
+  addShape(ctx, slide, 72, 232, 10, 424, bulletCard.accent, "#00000000", 0, "rect", "rounded-sm");
   addText(ctx, slide, {
     text: bulletLines(spec.bullets || []),
     x: 102,
     y: 268,
     width: 520,
-    height: 300,
-    fontSize: 22,
+    height: 356,
+    fontSize: 24,
     color: theme.ink,
     typeface: theme.bodyFont,
   });
@@ -800,7 +810,7 @@ async function renderBulletsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 268,
     width: 140,
     height: 20,
-    fontSize: 12,
+    fontSize: 14,
     bold: true,
     color: theme.highlight || theme.accentSoft,
     typeface: theme.bodyFont,
@@ -812,7 +822,7 @@ async function renderBulletsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 310,
     width: 440,
     height: 130,
-    fontSize: 24,
+    fontSize: 26,
     color: theme.inverse,
     typeface: theme.titleFont,
   });
@@ -849,7 +859,7 @@ async function renderMetricsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
       y: top + 52,
       width: cardWidth - 56,
       height: 64,
-      fontSize: 40,
+      fontSize: 44,
       bold: true,
       color: theme.accent,
       typeface: theme.titleFont,
@@ -860,7 +870,7 @@ async function renderMetricsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
       y: top + 132,
       width: cardWidth - 56,
       height: 32,
-      fontSize: 20,
+      fontSize: 22,
       bold: true,
       color: theme.ink,
       typeface: theme.bodyFont,
@@ -871,7 +881,7 @@ async function renderMetricsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
       y: top + 176,
       width: cardWidth - 56,
       height: 72,
-      fontSize: 16,
+      fontSize: 17,
       color: theme.muted,
       typeface: theme.bodyFont,
     });
@@ -884,7 +894,7 @@ async function renderMetricsSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 610,
     width: 1000,
     height: 50,
-    fontSize: 22,
+    fontSize: 24,
     bold: true,
     color: theme.inverse,
     typeface: theme.bodyFont,
@@ -911,7 +921,7 @@ async function renderClosingSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 210,
     width: 220,
     height: 22,
-    fontSize: 13,
+    fontSize: 15,
     bold: true,
     color: theme.highlight || theme.accentSoft,
     typeface: theme.bodyFont,
@@ -923,7 +933,7 @@ async function renderClosingSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 252,
     width: 920,
     height: 100,
-    fontSize: 40,
+    fontSize: 44,
     bold: true,
     color: theme.inverse,
     typeface: theme.titleFont,
@@ -934,7 +944,7 @@ async function renderClosingSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 376,
     width: 920,
     height: 90,
-    fontSize: 24,
+    fontSize: 26,
     color: "#D5E0EA",
     typeface: theme.bodyFont,
   });
@@ -946,7 +956,7 @@ async function renderClosingSlide(ctx, slide, theme, deck, spec, slideNumber, sl
       y: 504,
       width: 152,
       height: 20,
-      fontSize: 16,
+      fontSize: 18,
       bold: true,
       color: theme.inverse,
       typeface: theme.bodyFont,
@@ -974,7 +984,7 @@ async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, sli
   const colX = [72, 668];
   const colWidth = 540;
   const startY = 236;
-  const rowHeight = 104;
+  const rowHeight = 116;
 
   items.forEach((item, index) => {
     const col = index % 2;
@@ -983,17 +993,17 @@ async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, sli
     const y = startY + row * rowHeight;
 
     const palette = cardPalette(theme, index);
-    addShape(ctx, slide, x, y, colWidth, 88, palette.fill, theme.border, 1, "rect", "rounded-lg");
-    addShape(ctx, slide, x, y, 8, 88, palette.accent, "#00000000", 0, "rect", "rounded-sm");
+    addShape(ctx, slide, x, y, colWidth, 100, palette.fill, theme.border, 1, "rect", "rounded-lg");
+    addShape(ctx, slide, x, y, 8, 100, palette.accent, "#00000000", 0, "rect", "rounded-sm");
 
-    addShape(ctx, slide, x + 28, y + 22, 44, 44, palette.accent, "#00000000", 0, "ellipse");
+    addShape(ctx, slide, x + 28, y + 24, 44, 44, palette.accent, "#00000000", 0, "ellipse");
     addText(ctx, slide, {
       text: item.number,
       x: x + 28,
-      y: y + 22,
+      y: y + 24,
       width: 44,
       height: 44,
-      fontSize: 18,
+      fontSize: 20,
       bold: true,
       color: theme.inverse,
       typeface: theme.bodyFont,
@@ -1005,10 +1015,10 @@ async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, sli
     addText(ctx, slide, {
       text: item.title,
       x: x + 92,
-      y: y + 16,
+      y: y + 12,
       width: colWidth - 112,
-      height: 34,
-      fontSize: 22,
+      height: 48,
+      fontSize: 24,
       bold: true,
       color: theme.ink,
       typeface: theme.bodyFont,
@@ -1017,10 +1027,10 @@ async function renderAgendaSlide(ctx, slide, theme, deck, spec, slideNumber, sli
       addText(ctx, slide, {
         text: item.detail,
         x: x + 92,
-        y: y + 54,
+        y: y + 62,
         width: colWidth - 112,
-        height: 26,
-        fontSize: 15,
+        height: 32,
+        fontSize: 16,
         color: theme.muted,
         typeface: theme.bodyFont,
       });
@@ -1046,7 +1056,7 @@ async function renderSectionSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 150,
     width: 160,
     height: 160,
-    fontSize: 72,
+    fontSize: 80,
     bold: true,
     color: theme.inverse,
     typeface: theme.titleFont,
@@ -1061,7 +1071,7 @@ async function renderSectionSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 360,
     width: 920,
     height: 100,
-    fontSize: 44,
+    fontSize: 48,
     bold: true,
     color: theme.inverse,
     typeface: theme.titleFont,
@@ -1075,7 +1085,7 @@ async function renderSectionSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     y: 506,
     width: 800,
     height: 60,
-    fontSize: 22,
+    fontSize: 24,
     color: theme.accentSoft,
     typeface: theme.bodyFont,
     align: "center",
@@ -1096,16 +1106,16 @@ async function renderTwoColumnSlide(ctx, slide, theme, deck, spec, slideNumber, 
 
   columns.forEach((column, index) => {
     const palette = cardPalette(theme, index);
-    addShape(ctx, slide, column.x, 232, 540, 400, palette.fill, theme.border, 1, "rect", "rounded-lg");
-    addShape(ctx, slide, column.x, 232, 10, 400, palette.accent, "#00000000", 0, "rect", "rounded-sm");
+    addShape(ctx, slide, column.x, 232, 540, 424, palette.fill, theme.border, 1, "rect", "rounded-lg");
+    addShape(ctx, slide, column.x, 232, 10, 424, palette.accent, "#00000000", 0, "rect", "rounded-sm");
     if (column.heading) {
       addText(ctx, slide, {
         text: String(column.heading),
         x: column.x + 28,
         y: 268,
         width: 484,
-        height: 40,
-        fontSize: 24,
+        height: 56,
+        fontSize: 26,
         bold: true,
         color: theme.accent,
         typeface: theme.bodyFont,
@@ -1114,10 +1124,10 @@ async function renderTwoColumnSlide(ctx, slide, theme, deck, spec, slideNumber, 
     addText(ctx, slide, {
       text: bulletLines(column.bullets),
       x: column.x + 28,
-      y: column.heading ? 324 : 268,
+      y: column.heading ? 336 : 268,
       width: 484,
-      height: column.heading ? 290 : 340,
-      fontSize: 20,
+      height: column.heading ? 300 : 364,
+      fontSize: 22,
       color: theme.ink,
       typeface: theme.bodyFont,
     });
@@ -1132,15 +1142,15 @@ async function renderComparisonSlide(ctx, slide, theme, deck, spec, slideNumber,
   addCornerDecor(ctx, slide, theme, "bl");
 
   const leftPalette = cardPalette(theme, 1);
-  addShape(ctx, slide, 72, 232, 540, 400, leftPalette.fill, theme.border, 1, "rect", "rounded-lg");
-  addShape(ctx, slide, 72, 232, 10, 400, leftPalette.accent, "#00000000", 0, "rect", "rounded-sm");
+  addShape(ctx, slide, 72, 232, 540, 424, leftPalette.fill, theme.border, 1, "rect", "rounded-lg");
+  addShape(ctx, slide, 72, 232, 10, 424, leftPalette.accent, "#00000000", 0, "rect", "rounded-sm");
   addText(ctx, slide, {
     text: String(spec.leftHeading || ""),
     x: 96,
     y: 268,
     width: 492,
-    height: 40,
-    fontSize: 24,
+    height: 56,
+    fontSize: 26,
     bold: true,
     color: theme.accent,
     typeface: theme.bodyFont,
@@ -1148,25 +1158,25 @@ async function renderComparisonSlide(ctx, slide, theme, deck, spec, slideNumber,
   addText(ctx, slide, {
     text: bulletLines(spec.leftPoints || []),
     x: 96,
-    y: 324,
+    y: 336,
     width: 492,
-    height: 290,
-    fontSize: 20,
+    height: 300,
+    fontSize: 22,
     color: theme.ink,
     typeface: theme.bodyFont,
   });
 
-  addShape(ctx, slide, 640, 232, 2, 400, theme.accent);
+  addShape(ctx, slide, 640, 232, 2, 424, theme.accent);
 
-  addShape(ctx, slide, 668, 232, 540, 400, theme.deep, "#00000000", 0, "rect", "rounded-lg");
+  addShape(ctx, slide, 668, 232, 540, 424, theme.deep, "#00000000", 0, "rect", "rounded-lg");
   addShape(ctx, slide, 668, 232, 540, 8, theme.highlight || theme.accent, "#00000000", 0, "rect", "rounded-sm");
   addText(ctx, slide, {
     text: String(spec.rightHeading || ""),
     x: 692,
     y: 268,
     width: 492,
-    height: 40,
-    fontSize: 24,
+    height: 56,
+    fontSize: 26,
     bold: true,
     color: theme.highlight || theme.accentSoft,
     typeface: theme.bodyFont,
@@ -1174,10 +1184,10 @@ async function renderComparisonSlide(ctx, slide, theme, deck, spec, slideNumber,
   addText(ctx, slide, {
     text: bulletLines(spec.rightPoints || []),
     x: 692,
-    y: 324,
+    y: 336,
     width: 492,
-    height: 290,
-    fontSize: 20,
+    height: 300,
+    fontSize: 22,
     color: theme.inverse,
     typeface: theme.bodyFont,
   });
@@ -1201,7 +1211,7 @@ async function renderQuoteSlide(ctx, slide, theme, deck, spec, slideNumber, slid
     y: panelTop + 70,
     width: 1000,
     height: 240,
-    fontSize: 40,
+    fontSize: 44,
     color: theme.ink,
     typeface: theme.titleFont,
     align: "center",
@@ -1215,7 +1225,7 @@ async function renderQuoteSlide(ctx, slide, theme, deck, spec, slideNumber, slid
       y: panelTop + 330,
       width: 1000,
       height: 40,
-      fontSize: 18,
+      fontSize: 20,
       bold: true,
       color: theme.accent,
       typeface: theme.bodyFont,
@@ -1255,7 +1265,7 @@ async function renderTableSlide(ctx, slide, theme, deck, spec, slideNumber, slid
       y: y + 4,
       width: width - 20,
       height: height - 8,
-      fontSize: rowIndex === -1 ? 18 : 16,
+      fontSize: rowIndex === -1 ? 20 : 17,
       bold: rowIndex === -1,
       color,
       typeface: theme.bodyFont,
@@ -1328,7 +1338,7 @@ async function renderTimelineSlide(ctx, slide, theme, deck, spec, slideNumber, s
       y: 310,
       width: 300,
       height: 70,
-      fontSize: 22,
+      fontSize: 24,
       bold: true,
       color: theme.ink,
       typeface: theme.bodyFont,
@@ -1341,7 +1351,7 @@ async function renderTimelineSlide(ctx, slide, theme, deck, spec, slideNumber, s
         y: 430,
         width: 300,
         height: 90,
-        fontSize: 16,
+        fontSize: 17,
         color: theme.muted,
         typeface: theme.bodyFont,
         align: "center",

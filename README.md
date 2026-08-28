@@ -77,7 +77,7 @@ node codex-ppt-automation/scripts/build-deck.mjs `
 `deck.theme` 可以是：
 
 - **预设主题名**：`academic`（校园宣传册风格：蓝色品牌带、橙色章节高亮、五色信息卡）、`corporate`（默认，深藏青+青+橙商务配色）、`ocean`、`forest`、`cathedral`、`slate`、`sunset`、`midnight`（深色）、`paper`、`spring`、`royal`
-- **中文字体**：默认使用微软雅黑（Microsoft YaHei），中文显示清晰；`academic` 使用参考成品相近的 44/32/24/22/16/14pt 层级
+- **中文字体**：默认使用微软雅黑（Microsoft YaHei），中文显示清晰；`academic` 使用参考成品相近的 80/48/36/26/24/22/17/15pt 层级，正文行距 150%
 - **自定义主题对象**（可选 `base` 指定从某预设继承，其余字段覆盖）：
 
 ```json
