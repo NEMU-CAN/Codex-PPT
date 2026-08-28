@@ -468,9 +468,15 @@ function addText(ctx, slide, options) {
 
   // Best-effort line spacing; the runtime exposes a direct `lineSpacing` setter
   // that accepts a multiplier (e.g. 1.5) and converts it to a percentage.
-  if (lineHeight !== 1 && shape?.text) {
+  // The runtime defaults every textbox to 150%, so we must explicitly set 100%
+  // for single-line labels (badges, buttons, nav, footer) — that keeps glyphs
+  // centered inside circles/rectangles in PowerPoint. Multi-line body text gets
+  // the generous 1.5x spacing.
+  if (shape?.text) {
+    const isSingleLine = estimateLines(text, size, width, Boolean(rest.bold)) <= 1;
+    const effectiveLineHeight = isSingleLine ? 1 : lineHeight;
     try {
-      shape.text.lineSpacing = lineHeight;
+      shape.text.lineSpacing = effectiveLineHeight;
     } catch {
       // ignore
     }
@@ -484,18 +490,20 @@ function addBaseBackground(ctx, slide, theme) {
 
 function addKicker(ctx, slide, theme, text, x = 72, y = 62, width = 150) {
   if (!text) return;
-  addShape(ctx, slide, x, y, width, 28, theme.accent, "#00000000", 0, "rect", "rounded-sm");
+  const height = 28;
+  addShape(ctx, slide, x, y, width, height, theme.accent, "#00000000", 0, "rect", "rounded-sm");
   addText(ctx, slide, {
     text: String(text).toUpperCase(),
-    x: x + 8,
-    y: y + 5,
-    width: width - 16,
-    height: 18,
+    x,
+    y,
+    width,
+    height,
     fontSize: 12,
     bold: true,
     color: theme.inverse,
     typeface: theme.bodyFont,
     align: "center",
+    valign: "middle",
     fit: false,
   });
 }
@@ -952,15 +960,16 @@ async function renderClosingSlide(ctx, slide, theme, deck, spec, slideNumber, sl
     addShape(ctx, slide, 130, 492, 180, 42, theme.highlight || theme.accent, "#00000000", 0, "rect", "rounded-lg");
     addText(ctx, slide, {
       text: String(spec.cta),
-      x: 144,
-      y: 504,
-      width: 152,
-      height: 20,
+      x: 130,
+      y: 492,
+      width: 180,
+      height: 42,
       fontSize: 18,
       bold: true,
       color: theme.inverse,
       typeface: theme.bodyFont,
       align: "center",
+      valign: "middle",
       fit: false,
     });
   }
